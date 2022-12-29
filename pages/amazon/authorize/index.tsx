@@ -28,8 +28,7 @@ async function constructOauthURI(marketplace: string, test: boolean = true) {
   if (redirectConfirmed) {
     const applicationId = process.env.NEXT_PUBLIC_AMAZON_APP_ID;
     const m = Marketplaces[marketplace];
-    const redirectUri =
-      "https://zealous-flower-0016eb010.2.azurestaticapps.net/amazon/authorize/result";
+    const redirectUri = "https://stockably.vercel.app/amazon/authorize/result";
     const state = v4();
     const oAuthURI = `${
       m.endpoint
