@@ -40,18 +40,19 @@ export default async function handler(
           .select("*");
 
         if (amazon_consent_query.data) {
-          const r = amazon_consent_query.data;
-          res.status(200).json(r);
+          const isFlowActive = amazon_consent_query.data[0].is_flow_active;
+          if (isFlowActive) {
+            res.status(200).json({ message: "Consent flow initiated" });
+          } else {
+            res
+              .status(200)
+              .json({ message: "Consent flow could not be initiated" });
+          }
         } else {
           res
-            .status(400)
+            .status(500)
             .json({ message: "no good", error: amazon_consent_query.error });
         }
-
-      //   if (response.isFlowActive) {
-      //     return { message: "Consent flow initiated" };
-      //     res.status(200).json({});
-      //   }
     }
   }
 }
