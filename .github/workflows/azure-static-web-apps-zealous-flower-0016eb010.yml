@@ -33,6 +33,7 @@ jobs:
         env: # Add environment variables here
           NEXT_PUBLIC_SUPABASE_URL: "https://ecdbwnbmntievbgwnyty.supabase.co"
           NEXT_PUBLIC_SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVjZGJ3bmJtbnRpZXZiZ3dueXR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzA2MTQ1MjQsImV4cCI6MTk4NjE5MDUyNH0.WjpyFCvoIUhXKkGIbLROJTMSetxDJbYQDSKXrCsSEdY"
+          NEXT_PUBLIC_AMAZON_APP_ID: "amzn1.sp.solution.22f4314c-b536-4455-be66-8bef72cc5a7e"
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
