@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { checkForActiveSession } from "../../utils";
+import { checkForActiveSession } from "../../../../utils";
 
 export default async function handler(
   req: NextApiRequest,

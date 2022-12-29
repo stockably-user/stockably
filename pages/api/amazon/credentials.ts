@@ -2,6 +2,7 @@ import { AssumeRoleCommand, Credentials, STSClient } from "@aws-sdk/client-sts";
 import SellingPartnerAPI from "amazon-sp-api";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { v4 } from "uuid";
+import { checkForActiveSession } from "../../../utils";
 
 async function getSecureCredentials() {
   try {
@@ -45,10 +46,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const credentials = await getSecureCredentials();
+  const sb = await checkForActiveSession(req, res);
 
-  if (credentials) {
-    const spApi = createSpApiClient("na", credentials, "");
-    res.status(200).json({ credentials, spApi });
+  if (sb) {
+    const credentials = await getSecureCredentials();
+    let region_query = await sb.from("marketplaces").select("*");
+    if (credentials) {
+      // const spApi = createSpApiClient("na", credentials, "");
+      res.status(200).json({ credentials, data: region_query.data });
+    }
   }
 }
