@@ -40,7 +40,9 @@ export default async function handler(
           const r = amazon_consent_query.data;
           res.status(200).json(r);
         } else {
-          res.status(500).json({ message: "no good" });
+          res
+            .status(400)
+            .json({ message: "no good", error: amazon_consent_query.error });
         }
 
       //   if (response.isFlowActive) {
