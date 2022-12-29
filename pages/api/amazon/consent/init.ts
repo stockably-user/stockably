@@ -47,10 +47,6 @@ export default async function handler(
       //     return { message: "Consent flow initiated" };
       //     res.status(200).json({});
       //   }
-
-      default:
-        console.error("unknown method");
-        res.status(500).json({ message: "no good" });
     }
   }
 }
