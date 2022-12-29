@@ -38,9 +38,8 @@ async function constructOauthURI(marketplace: string, test: boolean = true) {
     }`;
     console.log(`redirecting to ${oAuthURI}`);
 
-    await initiateConsentFlow(state, m.countryCode);
-
     window.open(oAuthURI, "_blank");
+    await initiateConsentFlow(state, m.countryCode);
   }
 }
 
