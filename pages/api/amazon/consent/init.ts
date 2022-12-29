@@ -26,15 +26,18 @@ export default async function handler(
         const region_id = region_query.data && region_query.data[0].region_id;
 
         // create amazon consent
-        const amazon_consent_query = await sb.from("amazon_consents").insert([
-          {
-            user_id: user?.id,
-            state: state,
-            is_flow_active: true,
-            is_granted: false,
-            region_id,
-          },
-        ]);
+        const amazon_consent_query = await sb
+          .from("amazon_consents")
+          .insert([
+            {
+              user_id: user?.id,
+              state: state,
+              is_flow_active: true,
+              is_granted: false,
+              region_id,
+            },
+          ])
+          .select("*");
 
         if (amazon_consent_query.data) {
           const r = amazon_consent_query.data;
