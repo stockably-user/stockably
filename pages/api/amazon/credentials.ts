@@ -46,16 +46,17 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // const sb = await checkForActiveSession(req, res);
+  const sb = await checkForActiveSession(req, res);
 
-  // if (sb) {
-  //   const credentials = await getSecureCredentials();
-  //   let region_query = await sb.from("marketplaces").select("*");
-  //   if (credentials) {
-  //     // const spApi = createSpApiClient("na", credentials, "");
-  //     res.status(200).json({ credentials, data: region_query.data });
-  //   }
-  //   res.status(200).json({ message: "doesn't work" });
-  // }
-  res.status(200).json({ message: "does this work?" });
+  if (sb) {
+    const credentials = await getSecureCredentials();
+
+    if (credentials) {
+      // const spApi = createSpApiClient("na", credentials, "");
+      let region_query = await sb.from("marketplaces").select("*");
+      res.status(200).json({ credentials, data: region_query.data });
+    } else {
+      res.status(200).json({ message: "doesn't work" });
+    }
+  }
 }

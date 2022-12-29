@@ -39,16 +39,18 @@ export default async function handler(
         if (amazon_consent_query.data) {
           const r = amazon_consent_query.data;
           res.status(200).json(r);
+        } else {
+          res.status(500).json({ message: "no good" });
         }
 
-        //   if (response.isFlowActive) {
-        //     return { message: "Consent flow initiated" };
-        //     res.status(200).json({});
-        //   }
+      //   if (response.isFlowActive) {
+      //     return { message: "Consent flow initiated" };
+      //     res.status(200).json({});
+      //   }
 
-        res.status(200).json({ message: "idk" });
       default:
         console.error("unknown method");
+        res.status(500).json({ message: "no good" });
     }
   }
 }
