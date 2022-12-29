@@ -55,5 +55,6 @@ export default async function handler(
       // const spApi = createSpApiClient("na", credentials, "");
       res.status(200).json({ credentials, data: region_query.data });
     }
+    res.status(200).json({ message: "doesn't work" });
   }
 }
