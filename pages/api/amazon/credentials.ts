@@ -2,7 +2,7 @@ import { AssumeRoleCommand, Credentials, STSClient } from "@aws-sdk/client-sts";
 import SellingPartnerAPI from "amazon-sp-api";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { v4 } from "uuid";
-import { checkForActiveSession } from "../utils";
+import { checkForActiveSession } from "../../../utils";
 
 async function getSecureCredentials() {
   try {

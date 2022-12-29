@@ -1,7 +1,7 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import { NextApiRequest, NextApiResponse } from "next";
 import * as url from "url";
-import { checkForActiveSession } from "../../utils";
+import { checkForActiveSession } from "../../../../utils";
 
 async function verifyConsentState(supabase: SupabaseClient, state: string) {
   // get initial consent
