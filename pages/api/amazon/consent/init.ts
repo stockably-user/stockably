@@ -28,7 +28,7 @@ export default async function handler(
         // create amazon consent
         const amazon_consent_query = await sb.from("amazon_consents").insert([
           {
-            user: user?.id,
+            user_id: user?.id,
             state: state,
             is_flow_active: true,
             is_granted: false,
