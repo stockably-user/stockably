@@ -8,7 +8,7 @@ import {
 import styles from "./authorize.module.css";
 
 async function initiateConsentFlow(state: string, countryCode: string) {
-  const req = await fetch(`/api/amazon/consent/init`, {
+  const req = await fetch(`api/amazon/consent/init`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
