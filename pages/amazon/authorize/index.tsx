@@ -22,7 +22,7 @@ async function initiateConsentFlow(state: string, countryCode: string) {
   console.log(res);
 }
 
-async function constructOauthURI(marketplace: string, test: boolean = true) {
+async function authorizeMarketplace(marketplace: string, test: boolean = true) {
   const redirectConfirmed = confirm(`Redirect to Amazon for authorization?`);
 
   if (redirectConfirmed) {
@@ -35,9 +35,10 @@ async function constructOauthURI(marketplace: string, test: boolean = true) {
     }/apps/authorize/consent?application_id=${applicationId}&redirect_uri=${redirectUri}&state=${state}${
       test ? "&version=beta" : null
     }`;
-    console.log(`redirecting to ${oAuthURI}`);
 
+    console.log(`redirecting for amazon authorization at ${oAuthURI}`);
     window.open(oAuthURI, "_blank");
+
     await initiateConsentFlow(state, m.countryCode);
   }
 }
@@ -51,7 +52,7 @@ export default function Authorize() {
           <button
             key={marketplace}
             className={styles.buttons}
-            onClick={() => constructOauthURI(marketplace)}
+            onClick={() => authorizeMarketplace(marketplace)}
           >
             <span className={styles.marketplace}>{marketplace}</span>
           </button>
@@ -63,7 +64,7 @@ export default function Authorize() {
           <button
             key={marketplace}
             className={styles.buttons}
-            onClick={() => constructOauthURI(marketplace)}
+            onClick={() => authorizeMarketplace(marketplace)}
           >
             <span className={styles.marketplace}>{marketplace}</span>
           </button>
@@ -75,7 +76,7 @@ export default function Authorize() {
           <button
             key={marketplace}
             className={styles.buttons}
-            onClick={() => constructOauthURI(marketplace)}
+            onClick={() => authorizeMarketplace(marketplace)}
           >
             <span className={styles.marketplace}>{marketplace}</span>
           </button>

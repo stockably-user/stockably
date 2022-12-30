@@ -19,18 +19,27 @@ export default function AuthorizeResult(props: AuthorizationResultParams) {
       sellingPartnerId,
     };
 
-    // immediately exchange auth code for refresh token & save user data
-    fetch(`/api/amazon/consent/complete`, {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((r) => r.json())
-      .then((response) => {
-        setConsentResult(response.message);
+    async function completeConsentFlow(data: {
+      oAuthCode: string;
+      state: string;
+      sellingPartnerId: string;
+    }) {
+      // immediately exchange auth code for refresh token & save user data
+      const req = await fetch(`/api/amazon/consent/complete`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
+
+      const res = await req.json();
+      console.log("completeConsetnFlow result: ", res.message);
+      setConsentResult(res.message);
+    }
+
+    // immediately exchange auth code for refresh token & save user data
+    completeConsentFlow(data);
   }, []);
 
   return (
