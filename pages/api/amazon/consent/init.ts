@@ -17,7 +17,7 @@ export default async function handler(
           data: { user },
         } = await sb.auth.getUser();
 
-        // get region
+        // get region id
         let region_query = await sb
           .from("marketplaces")
           .select("region_id")
@@ -35,9 +35,10 @@ export default async function handler(
               is_flow_active: true,
               is_granted: false,
               region_id,
+              created_at: new Date(),
             },
           ])
-          .select("*");
+          .select("is_flow_active");
 
         if (amazon_consent_query.data) {
           const isFlowActive = amazon_consent_query.data[0].is_flow_active;

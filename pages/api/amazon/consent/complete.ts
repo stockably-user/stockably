@@ -9,29 +9,40 @@ async function verifyConsentState(supabase: SupabaseClient, state: string) {
     .from("amazon_consents")
     .select("*")
     .eq("state", state)
-    .eq("is_flow_active", true);
+    .eq("is_flow_active", true)
+    .select("*");
 
   if (amazon_consent_query.data) {
+    console.log("verified consent: ", amazon_consent_query);
     return amazon_consent_query.data;
   }
 }
 
 async function exchangeAuthCodeForRefreshToken(authCode: string) {
-  //   const params = new url.URLSearchParams({
-  //     grant_type: "authorization_code",
-  //     code: authCode,
-  //     redirect_uri: "https://stockably.herokuapp.com",
-  //     client_id: process.env.AMAZON_CLIENT_ID,
-  //     client_secret: process.env.AMAZON_CLIENT_SECRET,
-  //   });
-  //   try {
-  //     const request = await this.http
-  //       .post("https://api.amazon.com/auth/o2/token", params.toString())
-  //       .toPromise();
-  //     return request.data.refresh_token;
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
+  try {
+    const url = new URL("https://api.amazon.com/auth/o2/token");
+    const params: Record<string, any> = {
+      grant_type: "authorization_code",
+      code: authCode,
+      redirect_uri: "https://stockably.herokuapp.com",
+      client_id: process.env.AMAZON_CLIENT_ID!,
+      client_secret: process.env.AMAZON_CLIENT_SECRET!,
+    };
+
+    Object.keys(params).forEach((key) =>
+      url.searchParams.append(key, params[key])
+    );
+
+    const request = await fetch(url, {
+      method: "POST",
+    });
+
+    const res = await request.json();
+    console.log(res);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export default async function handler(
@@ -51,15 +62,12 @@ export default async function handler(
 
         const validConsent = await verifyConsentState(sb, consentResult.state);
 
-        res.status(200).json(validConsent);
-
-      // if (validConsent) {
-      //   const refreshToken = await exchangeAuthCodeForRefreshToken(
-      //     consentResult.oAuthCode
-      //   );
-      //   const user = await this.userService.findByAuth0Id(
-      //     consentResult.auth0Id
-      //   );
+        if (validConsent) {
+          const refreshToken = await exchangeAuthCodeForRefreshToken(
+            consentResult.oAuthCode
+          );
+          res.status(200).json(validConsent);
+        }
 
       //   // set new data
       //   validConsent.user = user;
@@ -78,9 +86,6 @@ export default async function handler(
       //     // return { message: "Amazon consent failed", success: false };
       //   }
       // }
-
-      default:
-        console.error("unknown method");
     }
   }
 }
