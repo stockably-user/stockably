@@ -13,7 +13,6 @@ async function verifyConsentState(supabase: SupabaseClient, state: string) {
     .select("*");
 
   if (amazon_consent_query.data) {
-    console.log("verified consent: ", amazon_consent_query);
     return amazon_consent_query.data;
   }
 }
@@ -32,8 +31,6 @@ async function exchangeAuthCodeForRefreshToken(authCode: string) {
     Object.keys(params).forEach((key) =>
       url.searchParams.append(key, params[key])
     );
-
-    console.log("token exchange url: ", url.href);
 
     const request = await fetch(url.href, {
       method: "POST",
@@ -67,26 +64,27 @@ export default async function handler(
           const refreshToken = await exchangeAuthCodeForRefreshToken(
             consentResult.oAuthCode
           );
-          res.status(200).json({ validConsent, refreshToken });
+
+          const { data } = await sb
+            .from("amazon_consents")
+            .update({
+              refresh_token: refreshToken,
+              selling_partner_id: consentResult.sellingPartnerId,
+              is_granted: true,
+              is_flow_active: false,
+            })
+            .eq("user_id", user?.id)
+            .eq("state", consentResult.state)
+            .select("refresh_token");
+
+          if (data && data[0].refresh_token) {
+            res
+              .status(200)
+              .json({ message: "Amazon consent granted", success: true });
+          } else {
+            res.json({ message: "Amazon consent failed", success: false });
+          }
         }
-
-      //   // set new data
-      //   validConsent.user = user;
-      //   validConsent.refreshToken = refreshToken;
-      //   validConsent.sellingPartnerId = consentResult.sellingPartnerId;
-      //   validConsent.isGranted = true;
-
-      //   // invalidate flow
-      //   validConsent.isFlowActive = false;
-      //   const response = await this.consentRepository.save(validConsent);
-      //   if (response && response.refreshToken) {
-      //     res
-      //       .status(200)
-      //       .json({ message: "Amazon consent granted", success: true });
-      //   } else {
-      //     // return { message: "Amazon consent failed", success: false };
-      //   }
-      // }
     }
   }
 }
