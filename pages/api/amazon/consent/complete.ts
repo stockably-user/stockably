@@ -40,8 +40,7 @@ async function exchangeAuthCodeForRefreshToken(authCode: string) {
     });
 
     const res = await request.json();
-    console.log(res);
-    return res.data.refresh_token;
+    return res.refresh_token;
   } catch (error) {
     console.log(error);
   }
