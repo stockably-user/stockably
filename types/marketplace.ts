@@ -5,26 +5,51 @@ export const MarketPlaces_NorthAmerica = {
     countryCode: "MX",
     endpoint: "https://sellercentral.amazon.com.mx",
   },
+  BRAZIL: { countryCode: "BR", endpoint: "" },
 };
 
 export const MarketPlaces_Europe = {
-  SPAIN: "https://sellercentral-europe.amazon.com",
-  GB: "https://sellercentral-europe.amazon.com", // UK
-  FRANCE: "https://sellercentral-europe.amazon.com",
-  NETHERLANDS: "https://sellercentral.amazon.nl",
-  GERMANY: "https://sellercentral-europe.amazon.com",
-  ITALY: "https://sellercentral-europe.amazon.com",
-  SWEDEN: "https://sellercentral.amazon.se",
-  POLAND: "https://sellercentral.amazon.pl",
-  TURKEY: "https://sellercentral.amazon.com.tr",
-  UAE: "https://sellercentral.amazon.ae",
-  INDIA: "https://sellercentral.amazon.in",
+  SPAIN: {
+    countryCode: "ES",
+    endpoint: "https://sellercentral-europe.amazon.com",
+  },
+  GB: {
+    countryCode: "GB",
+    endpoint: "https://sellercentral-europe.amazon.com",
+  }, // UK
+  FRANCE: {
+    countryCode: "FR",
+    endpoint: "https://sellercentral-europe.amazon.com",
+  },
+  NETHERLANDS: {
+    countryCode: "NL",
+    endpoint: "https://sellercentral.amazon.nl",
+  },
+  GERMANY: {
+    countryCode: "DE",
+    endpoint: "https://sellercentral-europe.amazon.com",
+  },
+  ITALY: {
+    countryCode: "IT",
+    endpoint: "https://sellercentral-europe.amazon.com",
+  },
+  SWEDEN: { countryCode: "SE", endpoint: "https://sellercentral.amazon.se" },
+  POLAND: { countryCode: "PL", endpoint: "https://sellercentral.amazon.pl" },
+  TURKEY: {
+    countryCode: "TR",
+    endpoint: "https://sellercentral.amazon.com.tr",
+  },
+  UAE: { countryCode: "AE", endpoint: "https://sellercentral.amazon.ae" },
+  INDIA: { countryCode: "IN", endpoint: "https://sellercentral.amazon.in" },
 };
 
 export const MarketPlaces_FarEast = {
-  SINGAPORE: "https://sellercentral.amazon.sg",
-  AUSTRALIA: "https://sellercentral.amazon.com.au",
-  JAPAN: "https://sellercentral.amazon.co.jp",
+  SINGAPORE: { countryCode: "SG", endpoint: "https://sellercentral.amazon.sg" },
+  AUSTRALIA: {
+    countryCode: "AU",
+    endpoint: "https://sellercentral.amazon.com.au",
+  },
+  JAPAN: { countryCode: "JP", endpoint: "https://sellercentral.amazon.co.jp" },
 };
 
 export const Marketplaces: Record<string, any> = {
