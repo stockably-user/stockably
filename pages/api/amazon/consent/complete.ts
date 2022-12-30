@@ -33,9 +33,9 @@ async function exchangeAuthCodeForRefreshToken(authCode: string) {
       url.searchParams.append(key, params[key])
     );
 
-    console.log("token exchange url: ", url);
+    console.log("token exchange url: ", url.href);
 
-    const request = await fetch(url, {
+    const request = await fetch(url.href, {
       method: "POST",
     });
 
