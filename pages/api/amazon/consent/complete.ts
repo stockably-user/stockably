@@ -24,7 +24,7 @@ async function exchangeAuthCodeForRefreshToken(authCode: string) {
     const params: Record<string, any> = {
       grant_type: "authorization_code",
       code: authCode,
-      redirect_uri: "https://stockably.herokuapp.com",
+      redirect_uri: "https://stockably.vercel.app",
       client_id: process.env.AMAZON_CLIENT_ID!,
       client_secret: process.env.AMAZON_CLIENT_SECRET!,
     };
@@ -33,13 +33,15 @@ async function exchangeAuthCodeForRefreshToken(authCode: string) {
       url.searchParams.append(key, params[key])
     );
 
+    console.log("token exchange url: ", url);
+
     const request = await fetch(url, {
       method: "POST",
     });
 
     const res = await request.json();
     console.log(res);
-    return res;
+    return res.data.refresh_token;
   } catch (error) {
     console.log(error);
   }
@@ -66,7 +68,7 @@ export default async function handler(
           const refreshToken = await exchangeAuthCodeForRefreshToken(
             consentResult.oAuthCode
           );
-          res.status(200).json(validConsent);
+          res.status(200).json({ validConsent, refreshToken });
         }
 
       //   // set new data
