@@ -39,6 +39,7 @@ async function exchangeAuthCodeForRefreshToken(authCode: string) {
 
     const res = await request.json();
     console.log(res);
+    return res;
   } catch (error) {
     console.log(error);
   }
@@ -65,9 +66,8 @@ export default async function handler(
           const refreshToken = await exchangeAuthCodeForRefreshToken(
             consentResult.oAuthCode
           );
+          res.status(200).json(validConsent);
         }
-
-        res.status(200).json(validConsent);
 
       //   // set new data
       //   validConsent.user = user;
