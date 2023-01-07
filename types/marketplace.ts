@@ -57,22 +57,3 @@ export const Marketplaces: Record<string, any> = {
   ...MarketPlaces_Europe,
   ...MarketPlaces_FarEast,
 };
-
-// export const MarketplaceButtons = {
-//   // keys have to be country codes
-//   US: {
-//     name: "North America",
-//     url: "https://sellercentral.amazon.com",
-//   },
-//   GB: {
-//     name: "Europe",
-//     url: "https://sellercentral-europe.amazon.com",
-//   },
-// };
-
-// export type Marketplace = {
-//   id: number;
-//   country: string;
-//   awsMarketplaceId: string;
-//   countryCode: string;
-// };
