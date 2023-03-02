@@ -12,7 +12,7 @@
     "@aws-sdk/client-sts": "^3.282.0",
     "@supabase/auth-helpers-nextjs": "^0.5.4",
     "@supabase/auth-helpers-react": "^0.3.1",
-    "@supabase/auth-ui-react": "^0.3.2",
+    "@supabase/auth-ui-react": "^0.2.6",
     "@supabase/supabase-js": "^2.9.0",
     "@types/node": "18.11.12",
     "@types/react": "18.0.26",
