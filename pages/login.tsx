@@ -1,8 +1,8 @@
-import Head from "next/head";
-import styles from "../styles/Home.module.css";
+import Head from 'next/head';
+import styles from '../styles/Home.module.css';
 
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import { Auth, ThemeSupa } from "@supabase/auth-ui-react";
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { Auth, ThemeSupa } from '@supabase/auth-ui-react';
 
 export default function Login() {
   const supabase = useSupabaseClient();

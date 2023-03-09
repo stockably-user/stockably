@@ -1,10 +1,9 @@
-import Head from "next/head";
+import Head from 'next/head';
+import { useSession } from '@supabase/auth-helpers-react';
+import Dashboard from './dashboard';
+import Login from './login';
 
-import { useSession } from "@supabase/auth-helpers-react";
-import Dashboard from "./dashboard";
-import Login from "./login";
-
-export default function Home() {
+function Home() {
   const session = useSession();
 
   return (
@@ -19,3 +18,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default Home;
