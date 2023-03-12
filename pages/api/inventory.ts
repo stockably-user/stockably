@@ -4,7 +4,6 @@ import { InventoryService } from '../../services/amazon/InventoryService';
 import { TokenService } from '../../services/supabase/TokenService';
 import { Region } from '../../types/region';
 import { ProductService } from '../../services/supabase/ProductService';
-import { STATUS_CODES } from 'http';
 
 export default async function handler(
   req: NextApiRequest,
