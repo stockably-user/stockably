@@ -1,4 +1,9 @@
-import { Region } from "./region";
+import { Region } from './region';
+
+export const SpApiRoutes = {
+  getInventorySummaries: 'fbaInventory.getInventorySummaries',
+  getInventoryListing: 'listingsItems.getListingsItem',
+} as const;
 
 export type GetInventorySummary = {
   region: Region;
