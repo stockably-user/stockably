@@ -46,6 +46,26 @@ function Dashboard({ session }: { session: Session }) {
     postInventory();
   }, []);
 
+  const handleGetItemInfo = useCallback(() => {
+    async function getItemInfo() {
+      const req = await fetch(`/api/item/ZO-JRGSL-GOLD`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const res = await req.json();
+      if (res.message) {
+        console.log(res.message);
+      } else {
+        console.log(res.data);
+        setInventory(res.data);
+      }
+    }
+    getItemInfo();
+  }, []);
+
   return (
     <div>
       <h1>Dashboard</h1>
@@ -57,6 +77,9 @@ function Dashboard({ session }: { session: Session }) {
         <button onClick={handleSaveInventory}>
           Save sample inventory item
         </button>
+      </div>
+      <div style={{ margin: '1rem 0' }}>
+        <button onClick={handleGetItemInfo}>Get item info</button>
       </div>
       <div>
         <pre>{JSON.stringify(inventory, null, 2)}</pre>
