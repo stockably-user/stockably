@@ -4,7 +4,6 @@ import { InventoryService } from '../../services/amazon/InventoryService';
 import { TokenService } from '../../services/supabase/TokenService';
 import { Region } from '../../types/region';
 import { ProductService } from '../../services/supabase/ProductService';
-import { STATUS_CODES } from 'http';
 
 export default async function handler(
   req: NextApiRequest,
@@ -19,10 +18,8 @@ export default async function handler(
 
     switch (req.method) {
       case 'GET':
-        // TODO: get refresh token, pass in region, marketplaceId
         const t = new TokenService(sb);
         const token = await t.getZacksRefreshTokenByRegion(Region.na);
-        console.log('refresh token is ', token);
 
         const i = new InventoryService();
         const inv = await i.getInventorySummary({
@@ -39,9 +36,6 @@ export default async function handler(
         break;
 
       case 'POST':
-        // Saving inventory
-        console.log('posting an item');
-
         if (!user) {
           res.status(403).json({ message: 'no user found' });
         } else {
