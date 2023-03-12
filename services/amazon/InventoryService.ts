@@ -1,8 +1,9 @@
 import {
   GetInventoryListing,
   GetInventorySummary,
-} from "../../types/inventory";
-import { SpApiService } from "./SpApiService";
+  SpApiRoutes,
+} from '../../types/inventory';
+import { SpApiService } from './SpApiService';
 
 export class InventoryService {
   private readonly spApi: SpApiService;
@@ -19,18 +20,37 @@ export class InventoryService {
         sandbox: false,
       });
 
+      const inventory = [];
+      let token = '';
       // get inventory summary for marketplace
       const inventorySummary = await client.callAPI({
-        operation: "fbaInventory.getInventorySummaries",
+        operation: SpApiRoutes.getInventorySummaries,
         query: {
           details: true,
-          granularityType: "Marketplace",
+          granularityType: 'Marketplace',
           granularityId: args.marketplaceId,
           marketplaceIds: [args.marketplaceId],
         },
       });
+      inventory.push(inventorySummary);
+      token = inventorySummary['nextToken'];
 
-      return inventorySummary;
+      while (token) {
+        const inventorySummary = await client.callAPI({
+          operation: SpApiRoutes.getInventorySummaries,
+          query: {
+            details: true,
+            granularityType: 'Marketplace',
+            granularityId: args.marketplaceId,
+            marketplaceIds: [args.marketplaceId],
+            nextToken: token,
+          },
+        });
+        inventory.push(inventorySummary);
+        token = inventorySummary['nextToken'];
+      }
+
+      return inventory;
     } catch (error) {
       console.error(error);
     }
@@ -45,7 +65,7 @@ export class InventoryService {
       });
 
       const sku = await client.callAPI({
-        operation: "listingsItems.getListingsItem",
+        operation: SpApiRoutes.getInventoryListing,
         path: {
           sellerId: args.sellerPartnerId,
           sku: args.sku,
@@ -54,7 +74,7 @@ export class InventoryService {
           marketplaceIds: args.marketplaceId,
         },
         options: {
-          version: "2021-08-01",
+          version: '2021-08-01',
         },
       });
 

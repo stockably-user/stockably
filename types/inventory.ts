@@ -1,4 +1,6 @@
-import { Region } from "./region";
+import { Region } from './region';
+
+export const InventoryApiName = 'fbaInventory.getInventorySummaries';
 
 export type GetInventorySummary = {
   region: Region;
