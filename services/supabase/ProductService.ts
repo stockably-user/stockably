@@ -1,4 +1,4 @@
-import { SupabaseClient } from '@supabase/supabase-js';
+import { SupabaseClient, User } from '@supabase/supabase-js';
 import { SaveProductData } from '../../types/product';
 
 export class ProductService {
@@ -6,6 +6,27 @@ export class ProductService {
 
   constructor(supabase: SupabaseClient) {
     this.supabase = supabase;
+  }
+
+  async getProductData() {
+    // retrieve product_item data for marketplace
+    // for each item, retrieve
+  }
+
+  async deleteTestData(user: User) {
+    const { data, error } = await this.supabase.rpc(
+      'remove_test_data_for_user',
+      {
+        _user_id: user.id,
+      }
+    );
+
+    if (error) {
+      console.log(error);
+      return error;
+    }
+
+    return data;
   }
 
   async saveProductData(args: SaveProductData) {
@@ -28,7 +49,7 @@ export class ProductService {
     }
 
     const { data: qData, error: qError } = await this.supabase
-      .from('item_quantities')
+      .from('amz_item_quantities')
       .insert([
         {
           item_id: data[0].id,

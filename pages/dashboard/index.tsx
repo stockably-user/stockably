@@ -70,12 +70,33 @@ function Dashboard({ session }: { session: Session }) {
     getItemInfo();
   }, []);
 
+  const handleDeleteItemData = useCallback(() => {
+    async function deleteItemData() {
+      const req = await fetch(`/api/item/test`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const res = await req.json();
+      if (res.message) {
+        console.log(res.message);
+        setInventory(res.message);
+      } else {
+        console.log(res.data);
+        setInventory(res.data);
+      }
+    }
+    deleteItemData();
+  }, []);
+
   return (
     <div>
       <h1>Dashboard</h1>
       <Link href="/amazon/authorize">Set up Amazon</Link>
       <div style={{ margin: '1rem 0' }}>
-        <button onClick={handleGetInventory}>Get inventory</button>
+        <button onClick={handleGetInventory}>Get inventory from AMZ</button>
       </div>
       <div style={{ margin: '1rem 0' }}>
         <button onClick={handleSaveInventory}>
@@ -83,7 +104,10 @@ function Dashboard({ session }: { session: Session }) {
         </button>
       </div>
       <div style={{ margin: '1rem 0' }}>
-        <button onClick={handleGetItemInfo}>Get item info</button>
+        <button onClick={handleGetItemInfo}>Get item info from AMZ</button>
+      </div>
+      <div style={{ margin: '1rem 0' }}>
+        <button onClick={handleDeleteItemData}>Delete test item data</button>
       </div>
       <div>
         <pre>{JSON.stringify(inventory, null, 2)}</pre>
