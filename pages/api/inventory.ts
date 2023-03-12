@@ -51,10 +51,10 @@ export default async function handler(
             user: user,
             itemId: 2,
             amzFulfillable: 166,
-            amzInboundWorking: 0,
-            amzInboundShipped: 0,
-            amzInboundReceiving: 0,
-            amzTotal: 166,
+            amzInboundWorking: 6,
+            amzInboundShipped: 6,
+            amzInboundReceiving: 2,
+            amzTotal: 180,
           };
 
           const data = await p.saveProductData({

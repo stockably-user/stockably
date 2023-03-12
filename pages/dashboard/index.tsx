@@ -94,7 +94,9 @@ function Dashboard({ session }: { session: Session }) {
   return (
     <div>
       <h1>Dashboard</h1>
-      <Link href="/amazon/authorize">Set up Amazon</Link>
+      <button>
+        <Link href="/amazon/authorize">Set up Amazon</Link>
+      </button>
       <div style={{ margin: '1rem 0' }}>
         <button onClick={handleGetInventory}>Get inventory from AMZ</button>
       </div>
