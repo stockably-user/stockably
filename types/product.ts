@@ -9,5 +9,16 @@ export interface ProductItem {
 
 export interface SaveProductData {
   user: User;
-  products: ProductItem[];
+  product: ProductItem;
+  quantities: ItemQuantity;
+}
+
+export interface ItemQuantity {
+  user: User;
+  itemId: number;
+  amzFulfillable: number;
+  amzInboundWorking: number;
+  amzInboundShipped: number;
+  amzInboundReceiving: number;
+  amzTotal: number;
 }

@@ -47,9 +47,20 @@ export default async function handler(
             name: 'Jade Roller and Gua Sha Set - Jade Face Roller, 100% Natural Jade Stone Set, Dual Sided Face Massager, Stimulates Blood Flow, Relieves Stress, Reduces Signs of Aging, Travel Pouch Included, Gift Box',
           };
 
+          const sampleQuantities = {
+            user: user,
+            itemId: 2,
+            amzFulfillable: 166,
+            amzInboundWorking: 0,
+            amzInboundShipped: 0,
+            amzInboundReceiving: 0,
+            amzTotal: 166,
+          };
+
           const data = await p.saveProductData({
             user: user,
-            products: [sampleItem],
+            product: sampleItem,
+            quantities: sampleQuantities,
           });
 
           res.status(200).json({ data: data });

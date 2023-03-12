@@ -19,6 +19,7 @@ function Dashboard({ session }: { session: Session }) {
       const res = await req.json();
       if (res.message) {
         console.log(res.message);
+        setInventory(res.message);
       } else {
         console.log(res.data);
         setInventory(res.data);
@@ -39,8 +40,10 @@ function Dashboard({ session }: { session: Session }) {
       const res = await req.json();
       if (res.message) {
         console.log(res.message);
+        setInventory(res.message);
       } else {
         console.log(res.data);
+        setInventory(res.data);
       }
     }
     postInventory();
@@ -58,6 +61,7 @@ function Dashboard({ session }: { session: Session }) {
       const res = await req.json();
       if (res.message) {
         console.log(res.message);
+        setInventory(res.message);
       } else {
         console.log(res.data);
         setInventory(res.data);
