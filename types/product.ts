@@ -1,6 +1,5 @@
 import { User } from '@supabase/supabase-js';
 
-
 export interface ProductItem {
   name: string;
   asin: string;
@@ -12,6 +11,11 @@ export interface SaveProductData {
   user: User;
   product: ProductItem;
   quantities: ItemQuantity;
+}
+
+export interface UpdateItem {
+  user: User;
+  item: any;
 }
 
 export interface ItemQuantity {

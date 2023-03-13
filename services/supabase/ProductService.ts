@@ -1,5 +1,5 @@
 import { SupabaseClient, User } from '@supabase/supabase-js';
-import { SaveProductData } from '../../types/product';
+import { SaveProductData, UpdateItem } from '../../types/product';
 
 export class ProductService {
   private readonly supabase!: SupabaseClient;
@@ -20,6 +20,21 @@ export class ProductService {
         _user_id: user.id,
       }
     );
+
+    if (error) {
+      console.log(error);
+      return error;
+    }
+
+    return data;
+  }
+
+  async updateItem(args: UpdateItem) {
+    const { user, item } = args;
+    const { data, error } = await this.supabase
+      .from('product_items')
+      .update({ image_url: item.mainImage.link })
+      .eq('user_id', user.id);
 
     if (error) {
       console.log(error);

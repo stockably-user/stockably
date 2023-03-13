@@ -70,6 +70,27 @@ function Dashboard({ session }: { session: Session }) {
     getItemInfo();
   }, []);
 
+  const handleUpdateItemInfo = useCallback(() => {
+    async function updateItemInfo() {
+      const req = await fetch(`/api/item`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const res = await req.json();
+      if (res.message) {
+        console.log(res.message);
+        setInventory(res.message);
+      } else {
+        console.log(res.data);
+        setInventory(res.data);
+      }
+    }
+    updateItemInfo();
+  }, []);
+
   const handleDeleteItemData = useCallback(() => {
     async function deleteItemData() {
       const req = await fetch(`/api/item/test`, {
@@ -107,6 +128,11 @@ function Dashboard({ session }: { session: Session }) {
       </div>
       <div style={{ margin: '1rem 0' }}>
         <button onClick={handleGetItemInfo}>Get item info from AMZ</button>
+      </div>
+      <div style={{ margin: '1rem 0' }}>
+        <button onClick={handleUpdateItemInfo}>
+          Get item info from AMZ and update in db
+        </button>
       </div>
       <div style={{ margin: '1rem 0' }}>
         <button onClick={handleDeleteItemData}>Delete test item data</button>
