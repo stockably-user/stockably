@@ -28,10 +28,10 @@ function Dashboard({ session }: { session: Session }) {
     getInventory();
   }, []);
 
-  const handleSaveInventory = useCallback(() => {
-    async function postInventory() {
-      const req = await fetch(`/api/inventory`, {
-        method: 'POST',
+  const handleGetInventoryFromDB = useCallback(() => {
+    async function getInventoryFromDB() {
+      const req = await fetch(`/api/inventory/db`, {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -46,7 +46,7 @@ function Dashboard({ session }: { session: Session }) {
         setInventory(res.data);
       }
     }
-    postInventory();
+    getInventoryFromDB();
   }, []);
 
   const handleGetItemInfo = useCallback(() => {
@@ -155,11 +155,6 @@ function Dashboard({ session }: { session: Session }) {
         <div style={{ paddingRight: '1rem' }}>
           <h2>Save data to DB</h2>
           <div style={{ margin: '1rem 0' }}>
-            <button onClick={handleSaveInventory}>
-              Save sample inventory item
-            </button>
-          </div>
-          <div style={{ margin: '1rem 0' }}>
             <button onClick={handleUpdateItemInfo}>
               Get item info from AMZ and update in db
             </button>
@@ -177,6 +172,12 @@ function Dashboard({ session }: { session: Session }) {
               Delete test item data
             </button>
           </div>
+        </div>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <div style={{ paddingRight: '1rem' }}>
+          <h2>Read data from DB</h2>
+          <button onClick={handleGetInventoryFromDB}>Get Inventory</button>
         </div>
       </div>
 

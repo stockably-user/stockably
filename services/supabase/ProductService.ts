@@ -14,11 +14,37 @@ export class ProductService {
     this.supabase = supabase;
   }
 
+  async getInventory(user: User) {
+    const { data, error } = await this.supabase
+      .from('product_items')
+      .select(
+        `
+        name,
+        asin,
+        sku,
+        fnsku,
+        amz_item_quantities (
+          amz_fulfillable,
+          amz_inbound_working,
+          amz_inbound_shipped,
+          amz_inbound_receiving,
+          amz_total
+        )
+      `
+      )
+      .eq('user_id', user.id);
+
+    if (error) {
+      return error;
+    } else {
+      return data;
+    }
+  }
+
   async saveProductsFromAmazon(args: SaveProductsFromAmazon) {
     // given amazon inventory data, save quantities and items to db
     for (let i of args.inventorySummary) {
       const inv = i.payload;
-      console.log('payload received: ', inv);
       if (inv) {
         for (let item of inv.inventorySummaries) {
           const p: ProductItem = {
@@ -27,8 +53,6 @@ export class ProductService {
             sellerSku: item.sellerSku!,
             asin: item.asin!,
           };
-
-          console.log('saving item with fnsku ', p.fnSku, ' to db');
 
           const q: ItemQuantity = {
             user: args.user,

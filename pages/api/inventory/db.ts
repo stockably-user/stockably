@@ -22,18 +22,12 @@ export default async function handler(
           res.status(403).json({ message: 'no user found' });
           break;
         }
-        const t = new TokenService(sb);
-        const token = await t.getZacksRefreshTokenByRegion(Region.na);
 
-        const i = new InventoryService();
-        const inv = await i.getInventorySummary({
-          region: Region.na,
-          marketplaceId: 'ATVPDKIKX0DER',
-          refreshToken: token?.refresh_token,
-        });
+        const p = new ProductService(sb);
+        const result = await p.getInventory(user);
 
-        if (inv) {
-          res.status(200).json({ data: inv });
+        if (result) {
+          res.status(200).json({ data: result });
         } else {
           res.status(500).json({ message: 'no good', error: {} });
         }
