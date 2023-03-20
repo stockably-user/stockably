@@ -1,5 +1,11 @@
 import { SupabaseClient, User } from '@supabase/supabase-js';
-import { SaveProductData, UpdateItem } from '../../types/product';
+import {
+  ItemQuantity,
+  ProductItem,
+  SaveProductData,
+  SaveProductsFromAmazon,
+  UpdateItem,
+} from '../../types/product';
 
 export class ProductService {
   private readonly supabase!: SupabaseClient;
@@ -8,9 +14,42 @@ export class ProductService {
     this.supabase = supabase;
   }
 
-  async getProductData() {
-    // retrieve product_item data for marketplace
-    // for each item, retrieve
+  async saveProductsFromAmazon(args: SaveProductsFromAmazon) {
+    // given amazon inventory data, save quantities and items to db
+    for (let i of args.inventorySummary) {
+      const inv = i.payload;
+      console.log('payload received: ', inv);
+      if (inv) {
+        for (let item of inv.inventorySummaries) {
+          const p: ProductItem = {
+            name: item.productName!,
+            fnSku: item.fnSku!,
+            sellerSku: item.sellerSku!,
+            asin: item.asin!,
+          };
+
+          console.log('saving item with fnsku ', p.fnSku, ' to db');
+
+          const q: ItemQuantity = {
+            user: args.user,
+            amzFulfillable: item.inventoryDetails?.fulfillableQuantity!,
+            amzInboundReceiving:
+              item.inventoryDetails?.inboundReceivingQuantity!,
+            amzInboundShipped: item.inventoryDetails?.inboundShippedQuantity!,
+            amzInboundWorking: item.inventoryDetails?.inboundWorkingQuantity!,
+            amzTotal: item.totalQuantity!,
+          };
+
+          await this.saveProductData({
+            user: args.user,
+            product: p,
+            quantities: q,
+          });
+        }
+      }
+    }
+
+    return { data: 'success' };
   }
 
   async deleteTestData(user: User) {
