@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { checkForActiveSession } from '../../utils';
-import { InventoryService } from '../../services/amazon/InventoryService';
-import { TokenService } from '../../services/supabase/TokenService';
-import { Region } from '../../types/region';
-import { ProductService } from '../../services/supabase/ProductService';
+import { checkForActiveSession } from '../../../utils';
+import { InventoryService } from '../../../services/amazon/InventoryService';
+import { TokenService } from '../../../services/supabase/TokenService';
+import { Region } from '../../../types/region';
+import { ProductService } from '../../../services/supabase/ProductService';
 
 export default async function handler(
   req: NextApiRequest,
@@ -51,10 +51,10 @@ export default async function handler(
             user: user,
             itemId: 2,
             amzFulfillable: 166,
-            amzInboundWorking: 0,
-            amzInboundShipped: 0,
-            amzInboundReceiving: 0,
-            amzTotal: 166,
+            amzInboundWorking: 6,
+            amzInboundShipped: 6,
+            amzInboundReceiving: 2,
+            amzTotal: 180,
           };
 
           const data = await p.saveProductData({

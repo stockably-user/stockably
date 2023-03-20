@@ -1,5 +1,5 @@
 import { User } from '@supabase/supabase-js';
-
+import { GetInventorySummariesResponse } from 'amazon-sp-api/lib/typings/operations/fbaInventory';
 
 export interface ProductItem {
   name: string;
@@ -14,9 +14,19 @@ export interface SaveProductData {
   quantities: ItemQuantity;
 }
 
+export interface UpdateItem {
+  user: User;
+  item: any;
+}
+
+export interface SaveProductsFromAmazon {
+  user: User;
+  inventorySummary: GetInventorySummariesResponse[];
+}
+
 export interface ItemQuantity {
   user: User;
-  itemId: number;
+  itemId?: number;
   amzFulfillable: number;
   amzInboundWorking: number;
   amzInboundShipped: number;

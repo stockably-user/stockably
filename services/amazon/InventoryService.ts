@@ -1,3 +1,5 @@
+import { Operation } from 'amazon-sp-api';
+import { GetInventorySummariesResponse } from 'amazon-sp-api/lib/typings/operations/fbaInventory';
 import {
   GetInventoryListing,
   GetInventorySummary,
@@ -20,8 +22,10 @@ export class InventoryService {
         sandbox: false,
       });
 
-      const inventory = [];
-      let token = '';
+      // https://github.com/amz-tools/amazon-sp-api/issues/128 existing bug in response typing means
+      // I have to manually create the Response type
+      const inventory: GetInventorySummariesResponse[] = [];
+
       // get inventory summary for marketplace
       const inventorySummary = await client.callAPI({
         operation: SpApiRoutes.getInventorySummaries,
@@ -32,8 +36,16 @@ export class InventoryService {
           marketplaceIds: [args.marketplaceId],
         },
       });
-      inventory.push(inventorySummary);
-      token = inventorySummary['nextToken'];
+      inventory.push({
+        payload: {
+          granularity: inventorySummary?.granularity,
+          inventorySummaries: inventorySummary?.inventorySummaries,
+        },
+        pagination: {
+          nextToken: inventorySummary?.nextToken,
+        },
+      });
+      let token = inventorySummary?.nextToken;
 
       while (token) {
         const inventorySummary = await client.callAPI({
@@ -46,13 +58,22 @@ export class InventoryService {
             nextToken: token,
           },
         });
-        inventory.push(inventorySummary);
-        token = inventorySummary['nextToken'];
+        inventory.push({
+          payload: {
+            granularity: inventorySummary?.granularity,
+            inventorySummaries: inventorySummary?.inventorySummaries,
+          },
+          pagination: {
+            nextToken: inventorySummary?.nextToken,
+          },
+        });
+        token = inventorySummary?.nextToken;
       }
 
       return inventory;
     } catch (error) {
       console.error(error);
+      return;
     }
   }
 

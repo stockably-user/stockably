@@ -1,11 +1,86 @@
-import { SupabaseClient } from '@supabase/supabase-js';
-import { SaveProductData } from '../../types/product';
+import { SupabaseClient, User } from '@supabase/supabase-js';
+import {
+  ItemQuantity,
+  ProductItem,
+  SaveProductData,
+  SaveProductsFromAmazon,
+  UpdateItem,
+} from '../../types/product';
 
 export class ProductService {
   private readonly supabase!: SupabaseClient;
 
   constructor(supabase: SupabaseClient) {
     this.supabase = supabase;
+  }
+
+  async saveProductsFromAmazon(args: SaveProductsFromAmazon) {
+    // given amazon inventory data, save quantities and items to db
+    for (let i of args.inventorySummary) {
+      const inv = i.payload;
+      console.log('payload received: ', inv);
+      if (inv) {
+        for (let item of inv.inventorySummaries) {
+          const p: ProductItem = {
+            name: item.productName!,
+            fnSku: item.fnSku!,
+            sellerSku: item.sellerSku!,
+            asin: item.asin!,
+          };
+
+          console.log('saving item with fnsku ', p.fnSku, ' to db');
+
+          const q: ItemQuantity = {
+            user: args.user,
+            amzFulfillable: item.inventoryDetails?.fulfillableQuantity!,
+            amzInboundReceiving:
+              item.inventoryDetails?.inboundReceivingQuantity!,
+            amzInboundShipped: item.inventoryDetails?.inboundShippedQuantity!,
+            amzInboundWorking: item.inventoryDetails?.inboundWorkingQuantity!,
+            amzTotal: item.totalQuantity!,
+          };
+
+          await this.saveProductData({
+            user: args.user,
+            product: p,
+            quantities: q,
+          });
+        }
+      }
+    }
+
+    return { data: 'success' };
+  }
+
+  async deleteTestData(user: User) {
+    const { data, error } = await this.supabase.rpc(
+      'remove_test_data_for_user',
+      {
+        _user_id: user.id,
+      }
+    );
+
+    if (error) {
+      console.log(error);
+      return error;
+    }
+
+    return data;
+  }
+
+  async updateItem(args: UpdateItem) {
+    const { user, item } = args;
+    const { data, error } = await this.supabase
+      .from('product_items')
+      .update({ image_url: item.mainImage.link })
+      .eq('user_id', user.id);
+
+    if (error) {
+      console.log(error);
+      return error;
+    }
+
+    return data;
   }
 
   async saveProductData(args: SaveProductData) {
@@ -28,7 +103,7 @@ export class ProductService {
     }
 
     const { data: qData, error: qError } = await this.supabase
-      .from('item_quantities')
+      .from('amz_item_quantities')
       .insert([
         {
           item_id: data[0].id,
