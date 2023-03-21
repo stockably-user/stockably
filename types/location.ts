@@ -21,3 +21,29 @@ export const LocationTypeMeta = {
     name: 'Amazon warehouse',
   },
 };
+
+export interface Location {
+  name: string;
+  description: string;
+  location_type_id?: number;
+  address_id?: number;
+  contact_id?: number;
+}
+
+export interface Address {
+  street1?: string;
+  street2?: string;
+  city?: string;
+  state?: string;
+  zip?: string;
+  country?: string;
+}
+
+export interface Contact {
+  fname?: string;
+  lname?: string;
+  email?: string;
+  phone?: string;
+  fax?: string;
+  address_id?: number;
+}

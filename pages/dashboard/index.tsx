@@ -133,6 +133,31 @@ function Dashboard({ session }: { session: Session }) {
     saveProductsFromAmazon();
   }, []);
 
+  const handleSaveLocation = useCallback(() => {
+    async function saveLocation() {
+      const req = await fetch('api/location', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: 'Test Matthew',
+          description: 'Test matthew',
+          error: 'tatt',
+        }),
+      });
+      const res = await req.json();
+      if (res.message) {
+        console.log(res.message);
+        setInventory(res.message);
+      } else {
+        console.log(res.data);
+        setInventory(res.data);
+      }
+    }
+    saveLocation();
+  }, []);
+
   return (
     <div>
       <h1>Dashboard</h1>
@@ -178,6 +203,10 @@ function Dashboard({ session }: { session: Session }) {
         <div style={{ paddingRight: '1rem' }}>
           <h2>Read data from DB</h2>
           <button onClick={handleGetInventoryFromDB}>Get Inventory</button>
+        </div>
+        <div style={{ paddingRight: '1rem' }}>
+          <h2>Locations</h2>
+          <button onClick={handleSaveLocation}>Save Location</button>
         </div>
       </div>
 
