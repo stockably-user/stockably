@@ -10,7 +10,7 @@ export const CreateLocationSchema = z.object({
   address_state: string().optional(),
   address_zip: string().optional(),
   address_country: string().optional(),
-  contact_fname: string(),
+  contact_fname: string().optional(),
   contact_lname: string().optional(),
   contact_email: string().email().optional(),
   contact_phone: string().optional(),

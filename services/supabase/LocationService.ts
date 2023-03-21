@@ -29,6 +29,8 @@ export class LocationService {
   async saveLocation(args: SaveLocation) {
     const { location, contact, address } = args;
 
+    // TODO: Convert this to supabase function and call from RPC to enable transaction behavior
+
     const { data: addressData, error: addressError } = await this.supabase
       .from('address')
       .insert([
