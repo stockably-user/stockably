@@ -33,7 +33,8 @@ export class ProductService {
         other_item_quantities (
           location_id,
           to_location_id,
-          location_status_id
+          location_status_id,
+          quantity
         )
       `
       )

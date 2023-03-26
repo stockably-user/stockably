@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { checkForActiveSession } from '../../../utils';
 import { CreateLocationSchema } from '../../../types/requestBody';
 import { Address, Contact, Location } from '../../../types/location';
-import { ProductService } from '../../../services/supabase/ProductService';
 import { LocationService } from '../../../services/supabase/LocationService';
 
 export default async function handler(
