@@ -29,6 +29,11 @@ export class ProductService {
           amz_inbound_shipped,
           amz_inbound_receiving,
           amz_total
+        ),
+        other_item_quantities (
+          location_id,
+          to_location_id,
+          location_status_id
         )
       `
       )
