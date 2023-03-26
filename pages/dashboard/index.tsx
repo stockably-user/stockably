@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Session, useSupabaseClient } from '@supabase/auth-helpers-react';
 import Link from 'next/link';
+import { Button, Container, SimpleGrid } from '@mantine/core';
 
 function Dashboard({ session }: { session: Session }) {
   const supabase = useSupabaseClient();
@@ -159,61 +160,59 @@ function Dashboard({ session }: { session: Session }) {
   }, []);
 
   return (
-    <div>
+    <Container fluid>
       <h1>Dashboard</h1>
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <div style={{ paddingRight: '1rem' }}>
+      <SimpleGrid cols={3}>
+        <div>
           <h2>Connect Amazon seller account</h2>
-          <button>
+          <Button>
             <Link href="/amazon/authorize">Set up Amazon</Link>
-          </button>
+          </Button>
         </div>
-        <div style={{ paddingRight: '1rem' }}>
+        <div>
           <h2>Read data from Amazon APIs</h2>
           <div style={{ margin: '1rem 0' }}>
-            <button onClick={handleGetInventory}>Get inventory from AMZ</button>
+            <Button onClick={handleGetInventory}>Get inventory from AMZ</Button>
           </div>
           <div style={{ margin: '1rem 0' }}>
-            <button onClick={handleGetItemInfo}>Get item info from AMZ</button>
+            <Button onClick={handleGetItemInfo}>Get item info from AMZ</Button>
           </div>
         </div>
-        <div style={{ paddingRight: '1rem' }}>
+        <div>
           <h2>Save data to DB</h2>
           <div style={{ margin: '1rem 0' }}>
-            <button onClick={handleUpdateItemInfo}>
+            <Button onClick={handleUpdateItemInfo}>
               Get item info from AMZ and update in db
-            </button>
+            </Button>
           </div>
           <div style={{ margin: '1rem 0' }}>
-            <button onClick={handleSaveProductsFromAmazon}>
+            <Button onClick={handleSaveProductsFromAmazon}>
               Get inventory from AMZ and update in db
-            </button>
+            </Button>
           </div>
         </div>
-        <div style={{ paddingRight: '1rem' }}>
+        <div>
           <h2>Reset test data</h2>
           <div style={{ margin: '1rem 0' }}>
-            <button onClick={handleDeleteItemData}>
+            <Button onClick={handleDeleteItemData}>
               Delete test item data
-            </button>
+            </Button>
           </div>
         </div>
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <div style={{ paddingRight: '1rem' }}>
+        <div>
           <h2>Read data from DB</h2>
-          <button onClick={handleGetInventoryFromDB}>Get Inventory</button>
+          <Button onClick={handleGetInventoryFromDB}>Get Inventory</Button>
         </div>
-        <div style={{ paddingRight: '1rem' }}>
+        <div>
           <h2>Locations</h2>
-          <button onClick={handleSaveLocation}>Save Location</button>
+          <Button onClick={handleSaveLocation}>Save Location</Button>
         </div>
-      </div>
+      </SimpleGrid>
 
       <div>
         <pre>{JSON.stringify(inventory, null, 2)}</pre>
       </div>
-    </div>
+    </Container>
   );
 }
 
