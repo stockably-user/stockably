@@ -14,6 +14,15 @@ export interface SaveProductData {
   quantities: ItemQuantity;
 }
 
+export interface SaveOtherQuantity {
+  user: User;
+  itemId: number;
+  locationId: number;
+  toLocationId?: number;
+  locationStatusId: number;
+  quantity: number;
+}
+
 export interface UpdateItem {
   user: User;
   item: any;
