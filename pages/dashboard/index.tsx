@@ -8,6 +8,7 @@ function Dashboard({ session }: { session: Session }) {
 
   const [inventory, setInventory] = useState();
 
+  // TODO: Move these click handlers into hook
   const handleGetInventory = useCallback(() => {
     async function getInventory() {
       const req = await fetch(`/api/inventory`, {
@@ -144,7 +145,18 @@ function Dashboard({ session }: { session: Session }) {
         body: JSON.stringify({
           name: 'Test Matthew',
           description: 'Test matthew',
-          error: 'tatt',
+          locationType: 'amz',
+          address_street1: '855 castro st',
+          address_street2: 'apt 1',
+          address_city: 'san francisco',
+          address_state: 'ca',
+          address_zip: '94114',
+          address_country: 'us',
+          contact_fname: 'matthew',
+          contact_lname: 'hwang',
+          contact_email: 'matthwang92@gmail.com',
+          contact_phone: '262212199',
+          contact_fax: '2622122199',
         }),
       });
       const res = await req.json();
