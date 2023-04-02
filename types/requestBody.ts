@@ -1,4 +1,4 @@
-import { string, z } from 'zod';
+import { number, string, z } from 'zod';
 
 export const CreateLocationSchema = z.object({
   name: string(),
@@ -15,4 +15,12 @@ export const CreateLocationSchema = z.object({
   contact_email: string().email(),
   contact_phone: string(),
   contact_fax: string().optional(),
+});
+
+export const SaveOtherQuantitySchema = z.object({
+  item_id: number(),
+  location_id: number(),
+  to_location_id: number().optional(),
+  location_status_id: number(),
+  quantity: number(),
 });

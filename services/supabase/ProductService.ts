@@ -2,6 +2,7 @@ import { SupabaseClient, User } from '@supabase/supabase-js';
 import {
   ItemQuantity,
   ProductItem,
+  SaveOtherQuantity,
   SaveProductData,
   SaveProductsFromAmazon,
   UpdateItem,
@@ -104,6 +105,38 @@ export class ProductService {
       .from('product_items')
       .update({ image_url: item.mainImage.link })
       .eq('user_id', user.id);
+
+    if (error) {
+      console.log(error);
+      return error;
+    }
+
+    return data;
+  }
+
+  async saveOtherQuantity({
+    user,
+    itemId,
+    locationId,
+    toLocationId,
+    locationStatusId,
+    quantity,
+  }: SaveOtherQuantity) {
+    const userId = user.id;
+
+    const { data, error } = await this.supabase
+      .from('other_item_quantities')
+      .insert([
+        {
+          user_id: user.id,
+          item_id: itemId,
+          location_id: locationId,
+          to_location_id: toLocationId,
+          location_status_id: locationStatusId,
+          quantity: quantity,
+        },
+      ])
+      .select('id');
 
     if (error) {
       console.log(error);
