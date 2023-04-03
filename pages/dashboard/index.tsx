@@ -2,11 +2,15 @@ import { useCallback, useEffect, useState } from 'react';
 import { Session, useSupabaseClient } from '@supabase/auth-helpers-react';
 import Link from 'next/link';
 import { Button, Container, SimpleGrid } from '@mantine/core';
+import { useContactForm } from '../../hooks/useContactForm';
+import AddContactForm from '../../components/contacts/AddContactForm';
 
 function Dashboard({ session }: { session: Session }) {
   const supabase = useSupabaseClient();
 
   const [inventory, setInventory] = useState();
+
+  const { isContactFormOpen, toggleContactFormOpenState } = useContactForm();
 
   // TODO: Move these click handlers into hook
   const handleGetInventory = useCallback(() => {
@@ -218,6 +222,13 @@ function Dashboard({ session }: { session: Session }) {
         <div>
           <h2>Locations</h2>
           <Button onClick={handleSaveLocation}>Save Location</Button>
+        </div>
+        <div>
+          <h2>Contacts</h2>
+          <Button onClick={toggleContactFormOpenState}>
+            Show add contact form
+          </Button>
+          {isContactFormOpen && <AddContactForm setInventory={setInventory} />}
         </div>
       </SimpleGrid>
 

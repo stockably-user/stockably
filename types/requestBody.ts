@@ -24,3 +24,11 @@ export const SaveOtherQuantitySchema = z.object({
   location_status_id: number(),
   quantity: number(),
 });
+
+export const SaveContactSchema = z.object({
+  fname: string(),
+  lname: string().optional(),
+  email: string().email(),
+  phone: string(),
+  fax: string().optional(),
+});
