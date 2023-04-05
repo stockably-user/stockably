@@ -1,20 +1,23 @@
 import { Button, NumberInput, TextInput } from '@mantine/core';
 import { Dispatch, SetStateAction, useCallback } from 'react';
+import { useForm } from 'react-hook-form';
 
 const AddContactForm = ({ setInventory }: { setInventory: Dispatch<any> }) => {
-  const handleAddContact = useCallback(() => {
-    async function addNewContact() {
+  const { register, handleSubmit, watch, formState } = useForm();
+
+  const handleAddContact = useCallback((data: any) => {
+    async function addNewContact(data: any) {
       const req = await fetch('api/contacts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          fname: 'matthew',
-          lname: 'hwang',
-          email: 'matthwang92@gmail.com',
-          phone: '262212199',
-          fax: '2622122199',
+          fname: data.fname,
+          lname: data.lname,
+          email: data.email,
+          phone: data.phone,
+          fax: data.fax,
         }),
       });
       const res = await req.json();
@@ -26,18 +29,19 @@ const AddContactForm = ({ setInventory }: { setInventory: Dispatch<any> }) => {
         setInventory(res.data);
       }
     }
-    addNewContact();
+    addNewContact(data);
   }, []);
 
   return (
-    <form id="addContactForm">
+    <form id="addContactForm" onSubmit={handleSubmit(handleAddContact)}>
       <h3>Add a new contact</h3>
-      <div>
-        I can't currently add an input component to the dashboard, not sure why,
-        so just have a button here to add instead
-      </div>
-      <Button onClick={handleAddContact}>Add new contact</Button>
-      {/* <input type="text">Contact ID</input> */}
+      <TextInput label="First Name" {...register('fname')} />
+      <TextInput label="Last Name" {...register('lname')} />
+      <TextInput label="Phone number" {...register('phone')} />
+      <TextInput label="Email" {...register('email')} />
+      <TextInput label="Fax" {...register('fax')} />
+
+      <Button type="submit">Add new contact</Button>
     </form>
   );
 };
