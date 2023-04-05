@@ -1,9 +1,13 @@
-import { AppShell, Header, Text } from '@mantine/core';
+import { AppShell, Container, Header, Text } from '@mantine/core';
 import CustomNavbar from '../../components/nav/Navbar';
 import StockablyAppShell from '../../components/nav/StockablyAppShell';
 
 const Inventory = () => {
-  return <div>Inventory Management</div>;
+  return (
+    <Container fluid>
+      <h1>Inventory Management</h1>
+    </Container>
+  );
 };
 
 const InventoryWrapper = () => {
