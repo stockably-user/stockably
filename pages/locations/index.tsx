@@ -8,6 +8,27 @@ const Locations = () => {
   const { isContactFormOpen, toggleContactFormOpenState } = useContactForm();
   const [inventory, setInventory] = useState(); // TODO:
 
+  const handleGetLocations = useCallback(() => {
+    async function getLocations() {
+      const req = await fetch('api/location', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const res = await req.json();
+      if (res.message) {
+        console.log(res.message);
+        setInventory(res.message);
+      } else {
+        console.log(res.data);
+        setInventory(res.data);
+      }
+    }
+
+    getLocations();
+  }, []);
+
   const handleSaveLocation = useCallback(() => {
     async function saveLocation() {
       const req = await fetch('api/location', {
@@ -49,7 +70,12 @@ const Locations = () => {
       <SimpleGrid cols={3}>
         <div>
           <h2>Locations</h2>
-          <Button onClick={handleSaveLocation}>Save Location</Button>
+          <div>
+            <Button onClick={handleSaveLocation}>Save Location</Button>
+          </div>
+          <div>
+            <Button onClick={handleGetLocations}>Get Locations</Button>
+          </div>
         </div>
         <div>
           <h2>Contacts</h2>
@@ -59,6 +85,7 @@ const Locations = () => {
           {isContactFormOpen && <AddContactForm setInventory={setInventory} />}
         </div>
       </SimpleGrid>
+      <pre>{JSON.stringify(inventory, null, 2)}</pre>
     </Container>
   );
 };

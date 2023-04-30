@@ -128,7 +128,7 @@ export class ProductService {
       .from('other_item_quantities')
       .insert([
         {
-          user_id: user.id,
+          user_id: userId,
           item_id: itemId,
           location_id: locationId,
           to_location_id: toLocationId,

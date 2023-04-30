@@ -1,7 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { checkForActiveSession } from '../../../utils';
 import { CreateLocationSchema } from '../../../types/requestBody';
-import { Address, Contact, Location } from '../../../types/location';
+import {
+  Address,
+  Contact,
+  Location,
+  LocationTypeMeta,
+} from '../../../types/location';
 import { LocationService } from '../../../services/supabase/LocationService';
 
 export default async function handler(
@@ -21,6 +26,17 @@ export default async function handler(
     }
 
     switch (req.method) {
+      case 'GET':
+        try {
+          const ls = new LocationService(sb);
+
+          const data = await ls.getLocations(user);
+          res.status(200).json({ data: data });
+          break;
+        } catch (error) {
+          res.status(500).json({ message: error });
+        }
+        break;
       case 'POST':
         try {
           const schema = CreateLocationSchema.parse(req.body);
@@ -28,6 +44,7 @@ export default async function handler(
           const l: Location = {
             name: schema.name,
             description: schema.description,
+            location_type_id: LocationTypeMeta[schema.locationType].id,
           };
 
           const a: Address = {

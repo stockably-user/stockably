@@ -26,8 +26,42 @@ export class LocationService {
 
   async deleteTestLocations(user: User) {}
 
+  async getLocations(user: User) {
+    const { data, error } = await this.supabase
+      .from('locations')
+      .select(
+        `
+        name,
+        description,
+        location_type_id,
+        address (
+          street_1,
+          street_2,
+          city,
+          state,
+          zip,
+          country
+        ),
+        contacts (
+          first_name,
+          last_name,
+          phone,
+          email,
+          fax
+        )
+      `
+      )
+      .eq('user_id', user.id);
+
+    if (error) {
+      return error;
+    } else {
+      return data;
+    }
+  }
+
   async saveLocation(args: SaveLocation) {
-    const { location, contact, address } = args;
+    const { location, contact, address, user } = args;
 
     // TODO: Convert this to supabase function and call from RPC to enable transaction behavior
 
@@ -41,6 +75,7 @@ export class LocationService {
           state: address.state,
           zip: address.zip,
           country: address.country,
+          user_id: user.id,
         },
       ])
       .select('id');
@@ -59,6 +94,7 @@ export class LocationService {
           phone: contact.phone,
           fax: contact.fax,
           address_id: addressData[0].id,
+          user_id: user.id,
         },
       ])
       .select('id');
@@ -76,6 +112,7 @@ export class LocationService {
           location_type_id: location.location_type_id,
           address_id: addressData[0].id,
           contact_id: contactData[0].id,
+          user_id: user.id,
         },
       ])
       .select('id');
