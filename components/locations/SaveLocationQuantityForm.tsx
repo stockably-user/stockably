@@ -1,7 +1,10 @@
 import { Button, NumberInput, Select, TextInput } from '@mantine/core';
-import { Dispatch, SetStateAction, useCallback } from 'react';
+import { Dispatch } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { LocationTypeFormMeta, LocationTypeMeta } from '../../types/location';
+import {
+  LocationStatusFormMeta,
+  LocationStatusMeta,
+} from '../../types/location';
 
 type SaveLocationQuantityForm = {
   item_id: number;
@@ -11,13 +14,46 @@ type SaveLocationQuantityForm = {
   quantity: number;
 };
 
+type LocationData = {
+  id: number;
+  name: string;
+  description: string;
+  location_type_id: number;
+  address: {
+    street_1: string;
+    street_2: string;
+    city: string;
+    state: string;
+    country: string;
+    zip: string;
+  };
+  contacts: {
+    first_name: string;
+    last_name: string;
+    phone: string;
+    email: string;
+    fax: string;
+  };
+};
+
 const SaveLocationQuantityForm = ({
   setInventory,
+  locations,
 }: {
   setInventory: Dispatch<any>;
+  locations: any;
 }) => {
   const { register, handleSubmit, watch, formState, setValue } =
     useForm<SaveLocationQuantityForm>();
+
+  const locationsData = locations
+    ? (locations as LocationData[]).map((location) => {
+        return {
+          value: location.id.toString(),
+          label: location.name,
+        };
+      }, {})
+    : [];
 
   const handleSaveLocationQuantity: SubmitHandler<SaveLocationQuantityForm> = (
     data: SaveLocationQuantityForm
@@ -55,18 +91,39 @@ const SaveLocationQuantityForm = ({
     >
       <h3>Save quantity for a location</h3>
       <TextInput label="item id" {...register('item_id')} />
-      <TextInput label="location id" {...register('location_id')} />
-      <TextInput label="to location id" {...register('to_location_id')} />
+      <Select
+        label="location id"
+        placeholder="Select location"
+        {...register('location_id')}
+        onChange={(valueString) => {
+          if (valueString) {
+            setValue('location_id', Number(valueString));
+          }
+        }}
+        data={locationsData}
+      />
+      <Select
+        clearable
+        label="to location id"
+        placeholder="Select to location"
+        {...register('to_location_id')}
+        onChange={(valueString) => {
+          if (valueString) {
+            setValue('to_location_id', Number(valueString));
+          }
+        }}
+        data={locationsData}
+      />
       <Select
         label="location status id"
         placeholder="Select location status"
         {...register('location_status_id')}
         onChange={(valueString) => {
           if (valueString) {
-            setValue('location_status_id', LocationTypeMeta[valueString].id);
+            setValue('location_status_id', LocationStatusMeta[valueString].id);
           }
         }}
-        data={LocationTypeFormMeta}
+        data={LocationStatusFormMeta}
       />
       <NumberInput
         label="quantity"

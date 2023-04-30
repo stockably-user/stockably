@@ -31,6 +31,7 @@ export class LocationService {
       .from('locations')
       .select(
         `
+        id,
         name,
         description,
         location_type_id,

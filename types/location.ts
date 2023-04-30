@@ -31,6 +31,33 @@ export const LocationTypeFormMeta = Object.keys(LocationTypeMeta).map(
   }
 );
 
+export const LocationStatus: { [key: string]: string } = {
+  it: 'it',
+  al: 'al',
+} as const;
+
+export const LocationStatusMeta = {
+  [LocationStatus.it]: {
+    id: 1,
+    token: LocationStatus.it,
+    name: 'In Transit',
+  },
+  [LocationStatus.al]: {
+    id: 2,
+    token: LocationStatus.al,
+    name: 'At Location',
+  },
+};
+
+export const LocationStatusFormMeta = Object.keys(LocationStatusMeta).map(
+  (status) => {
+    return {
+      value: status,
+      label: LocationStatusMeta[status].name,
+    };
+  }
+);
+
 export interface Location {
   name: string;
   description: string;

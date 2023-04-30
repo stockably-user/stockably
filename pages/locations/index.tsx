@@ -12,7 +12,8 @@ const Locations = () => {
     isSaveLocationQuantityFormOpen,
     toggleSaveLocationQuantityFormOpenState,
   } = useSaveLocationQuantityForm();
-  const [inventory, setInventory] = useState(); // TODO:
+  const [inventory, setInventory] = useState();
+  const [locations, setLocations] = useState();
 
   const handleGetLocations = useCallback(() => {
     async function getLocations() {
@@ -26,9 +27,11 @@ const Locations = () => {
       if (res.message) {
         console.log(res.message);
         setInventory(res.message);
+        setLocations(res.message);
       } else {
         console.log(res.data);
         setInventory(res.data);
+        setLocations(res.data);
       }
     }
 
@@ -87,7 +90,10 @@ const Locations = () => {
               Open Save Location Quantity Form
             </Button>
             {isSaveLocationQuantityFormOpen && (
-              <SaveLocationQuantityForm setInventory={setInventory} />
+              <SaveLocationQuantityForm
+                locations={locations}
+                setInventory={setInventory}
+              />
             )}
           </div>
         </div>
