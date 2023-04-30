@@ -3,9 +3,15 @@ import StockablyAppShell from '../../components/nav/StockablyAppShell';
 import { useContactForm } from '../../hooks/useContactForm';
 import { useCallback, useState } from 'react';
 import AddContactForm from '../../components/contacts/AddContactForm';
+import { useSaveLocationQuantityForm } from '../../hooks/useSaveLocationQuantityForm';
+import SaveLocationQuantityForm from '../../components/locations/SaveLocationQuantityForm';
 
 const Locations = () => {
   const { isContactFormOpen, toggleContactFormOpenState } = useContactForm();
+  const {
+    isSaveLocationQuantityFormOpen,
+    toggleSaveLocationQuantityFormOpenState,
+  } = useSaveLocationQuantityForm();
   const [inventory, setInventory] = useState(); // TODO:
 
   const handleGetLocations = useCallback(() => {
@@ -75,6 +81,14 @@ const Locations = () => {
           </div>
           <div>
             <Button onClick={handleGetLocations}>Get Locations</Button>
+          </div>
+          <div>
+            <Button onClick={toggleSaveLocationQuantityFormOpenState}>
+              Open Save Location Quantity Form
+            </Button>
+            {isSaveLocationQuantityFormOpen && (
+              <SaveLocationQuantityForm setInventory={setInventory} />
+            )}
           </div>
         </div>
         <div>

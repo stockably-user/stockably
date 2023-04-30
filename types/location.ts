@@ -22,6 +22,15 @@ export const LocationTypeMeta = {
   },
 };
 
+export const LocationTypeFormMeta = Object.keys(LocationTypeMeta).map(
+  (locationTypeName) => {
+    return {
+      value: locationTypeName,
+      label: LocationTypeMeta[locationTypeName].name,
+    };
+  }
+);
+
 export interface Location {
   name: string;
   description: string;
