@@ -8,7 +8,6 @@ import StockablyAppShell from "../components/nav/StockablyAppShell";
 
 function Home() {
   const session = useSession();
-  console.log("test");
 
   return (
     <div>
