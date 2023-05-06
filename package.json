@@ -17,7 +17,7 @@
     "@mantine/next": "^6.0.8",
     "@supabase/auth-helpers-nextjs": "^0.5.6",
     "@supabase/auth-helpers-react": "^0.3.1",
-    "@supabase/auth-ui-react": "^0.2.8",
+    "@supabase/auth-ui-react": "^0.3.6",
     "@supabase/supabase-js": "^2.14.0",
     "@types/node": "18.15.10",
     "@types/react": "18.0.33",
