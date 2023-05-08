@@ -51,7 +51,7 @@ export class TokenService {
         )
       `
       )
-      .eq('user_id', 'ZACKS USER ID IN SUPABASE')
+      .eq('user_id', 'ZACK USER ID IN SUPABASE')
       .filter('regions.code', 'eq', region)
       .order('created_at', { ascending: false });
 
