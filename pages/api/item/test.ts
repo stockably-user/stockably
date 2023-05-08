@@ -19,12 +19,13 @@ export default async function handler(
     }
 
     switch (req.method) {
-      case 'DELETE':
+      case 'DELETE': {
         const p = new ProductService(sb);
         const data = await p.deleteTestData(user);
 
         res.status(200).json({ data });
         break;
+      }
     }
   }
 }

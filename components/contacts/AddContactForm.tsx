@@ -1,8 +1,8 @@
-import { Button, NumberInput, TextInput } from '@mantine/core';
-import { Dispatch, SetStateAction, useCallback } from 'react';
+import { Button, TextInput } from '@mantine/core';
+import { Dispatch } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-type AddContactForm = {
+type AddContactFormValues = {
   fname: string;
   lname: string;
   email: string;
@@ -11,11 +11,10 @@ type AddContactForm = {
 };
 
 const AddContactForm = ({ setInventory }: { setInventory: Dispatch<any> }) => {
-  const { register, handleSubmit, watch, formState } =
-    useForm<AddContactForm>();
+  const { register, handleSubmit } = useForm<AddContactFormValues>();
 
-  const handleAddContact: SubmitHandler<AddContactForm> = (
-    data: AddContactForm
+  const handleAddContact: SubmitHandler<AddContactFormValues> = (
+    data: AddContactFormValues
   ) => {
     async function addNewContact(data: any) {
       const req = await fetch('api/contacts', {

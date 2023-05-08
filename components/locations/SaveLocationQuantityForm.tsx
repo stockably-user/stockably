@@ -6,7 +6,7 @@ import {
   LocationStatusMeta,
 } from '../../types/location';
 
-type SaveLocationQuantityForm = {
+type SaveLocationQuantityFormValues = {
   item_id: number;
   location_id: number;
   to_location_id: number;
@@ -43,8 +43,8 @@ const SaveLocationQuantityForm = ({
   setInventory: Dispatch<any>;
   locations: any;
 }) => {
-  const { register, handleSubmit, watch, formState, setValue } =
-    useForm<SaveLocationQuantityForm>();
+  const { register, handleSubmit, setValue } =
+    useForm<SaveLocationQuantityFormValues>();
 
   const locationsData = locations
     ? (locations as LocationData[]).map((location) => {
@@ -55,9 +55,9 @@ const SaveLocationQuantityForm = ({
       }, {})
     : [];
 
-  const handleSaveLocationQuantity: SubmitHandler<SaveLocationQuantityForm> = (
-    data: SaveLocationQuantityForm
-  ) => {
+  const handleSaveLocationQuantity: SubmitHandler<
+    SaveLocationQuantityFormValues
+  > = (data: SaveLocationQuantityFormValues) => {
     async function saveLocationQuantity(data: any) {
       const req = await fetch('api/inventory/other', {
         method: 'POST',

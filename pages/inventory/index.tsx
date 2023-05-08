@@ -1,5 +1,4 @@
-import { AppShell, Container, Header, Text } from '@mantine/core';
-import CustomNavbar from '../../components/nav/Navbar';
+import { Container } from '@mantine/core';
 import StockablyAppShell from '../../components/nav/StockablyAppShell';
 
 const Inventory = () => {

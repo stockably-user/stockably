@@ -182,7 +182,7 @@ export class ProductService {
       console.log(qError);
       return qError;
     } else {
-      return data;
+      return qData;
     }
   }
 }

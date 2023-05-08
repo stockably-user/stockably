@@ -22,7 +22,7 @@ export default async function handler(
     }
 
     switch (req.method) {
-      case 'POST':
+      case 'POST': {
         const sku = 'ZO-JRGSL-GOLD';
         const t = new TokenService(sb);
         const token = await t.getZacksRefreshTokenByRegion(Region.na);
@@ -43,6 +43,7 @@ export default async function handler(
 
         res.status(200).json({ data });
         break;
+      }
     }
   }
 }

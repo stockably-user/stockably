@@ -1,9 +1,9 @@
-import { AssumeRoleCommand, Credentials, STSClient } from "@aws-sdk/client-sts";
-import { v4 } from "uuid";
-import SellingPartnerAPI from "amazon-sp-api";
+import { AssumeRoleCommand, STSClient } from '@aws-sdk/client-sts';
+import { v4 } from 'uuid';
+import SellingPartnerAPI from 'amazon-sp-api';
 
 type CreateSpApiClient = {
-  region: "eu" | "na" | "fe";
+  region: 'eu' | 'na' | 'fe';
   refreshToken: string;
   sandbox: boolean;
 };
@@ -16,7 +16,7 @@ export class SpApiService {
         accessKeyId: process.env.AWS_SELLING_PARTNER_ACCESS_KEY_ID!,
         secretAccessKey: process.env.AWS_SELLING_PARTNER_SECRET_ACCESS_KEY!,
       },
-      region: "us-east-1",
+      region: 'us-east-1',
     });
 
     const command = new AssumeRoleCommand({

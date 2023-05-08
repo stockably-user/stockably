@@ -11,12 +11,12 @@ export default async function handler(
   const sb = await checkForActiveSession(req, res);
 
   if (sb) {
-    const {
-      data: { user },
-    } = await sb.auth.getUser();
+    // const {
+    //   data: { user },
+    // } = await sb.auth.getUser();
 
     switch (req.method) {
-      case 'GET':
+      case 'GET': {
         const sku = req.query['sku'] as string;
         const t = new TokenService(sb);
         const token = await t.getZacksRefreshTokenByRegion(Region.na);
@@ -36,6 +36,7 @@ export default async function handler(
           res.status(500).json({ message: 'no good', error: {} });
         }
         break;
+      }
     }
   }
 }

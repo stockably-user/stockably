@@ -1,13 +1,8 @@
-import { useCallback, useEffect, useState } from 'react';
-import { Session, useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useCallback, useState } from 'react';
 import Link from 'next/link';
 import { Button, Container, SimpleGrid } from '@mantine/core';
-import { useContactForm } from '../../hooks/useContactForm';
-import AddContactForm from '../../components/contacts/AddContactForm';
 
-function Dashboard({ session }: { session: Session }) {
-  const supabase = useSupabaseClient();
-
+function Dashboard() {
   const [inventory, setInventory] = useState();
 
   // TODO: Move these click handlers into hook

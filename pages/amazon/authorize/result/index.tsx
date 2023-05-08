@@ -1,5 +1,5 @@
-import { GetServerSideProps } from "next";
-import { useEffect, useState } from "react";
+import { GetServerSideProps } from 'next';
+import { useEffect, useState } from 'react';
 
 interface AuthorizationResultParams {
   oAuthCode: string;
@@ -8,7 +8,7 @@ interface AuthorizationResultParams {
 }
 
 export default function AuthorizeResult(props: AuthorizationResultParams) {
-  const [consentResult, setConsentResult] = useState("");
+  const [consentResult, setConsentResult] = useState('');
 
   useEffect(() => {
     const { sellingPartnerId, oAuthCode, state } = props;
@@ -26,20 +26,21 @@ export default function AuthorizeResult(props: AuthorizationResultParams) {
     }) {
       // immediately exchange auth code for refresh token & save user data
       const req = await fetch(`/api/amazon/consent/complete`, {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify(data),
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       });
 
       const res = await req.json();
-      console.log("completeConsetnFlow result: ", res.message);
+      console.log('completeConsetnFlow result: ', res.message);
       setConsentResult(res.message);
     }
 
     // immediately exchange auth code for refresh token & save user data
     completeConsentFlow(data);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

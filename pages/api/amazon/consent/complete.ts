@@ -1,16 +1,15 @@
-import { SupabaseClient } from "@supabase/supabase-js";
-import { NextApiRequest, NextApiResponse } from "next";
-import * as url from "url";
-import { checkForActiveSession } from "../../../../utils";
+import { SupabaseClient } from '@supabase/supabase-js';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { checkForActiveSession } from '../../../../utils';
 
 async function verifyConsentState(supabase: SupabaseClient, state: string) {
   // get initial consent
   let amazon_consent_query = await supabase
-    .from("amazon_consents")
-    .select("*")
-    .eq("state", state)
-    .eq("is_flow_active", true)
-    .select("*");
+    .from('amazon_consents')
+    .select('*')
+    .eq('state', state)
+    .eq('is_flow_active', true)
+    .select('*');
 
   if (amazon_consent_query.data) {
     return amazon_consent_query.data;
@@ -19,11 +18,11 @@ async function verifyConsentState(supabase: SupabaseClient, state: string) {
 
 async function exchangeAuthCodeForRefreshToken(authCode: string) {
   try {
-    const url = new URL("https://api.amazon.com/auth/o2/token");
+    const url = new URL('https://api.amazon.com/auth/o2/token');
     const params: Record<string, any> = {
-      grant_type: "authorization_code",
+      grant_type: 'authorization_code',
       code: authCode,
-      redirect_uri: "https://stockably.vercel.app",
+      redirect_uri: 'https://stockably.vercel.app',
       client_id: process.env.AMAZON_CLIENT_ID!,
       client_secret: process.env.AMAZON_CLIENT_SECRET!,
     };
@@ -33,7 +32,7 @@ async function exchangeAuthCodeForRefreshToken(authCode: string) {
     );
 
     const request = await fetch(url.href, {
-      method: "POST",
+      method: 'POST',
     });
 
     const res = await request.json();
@@ -51,7 +50,7 @@ export default async function handler(
 
   if (sb) {
     switch (req.method) {
-      case "POST":
+      case 'POST': {
         const consentResult = req.body;
 
         const {
@@ -66,25 +65,26 @@ export default async function handler(
           );
 
           const { data } = await sb
-            .from("amazon_consents")
+            .from('amazon_consents')
             .update({
               refresh_token: refreshToken,
               selling_partner_id: consentResult.sellingPartnerId,
               is_granted: true,
               is_flow_active: false,
             })
-            .eq("user_id", user?.id)
-            .eq("state", consentResult.state)
-            .select("refresh_token");
+            .eq('user_id', user?.id)
+            .eq('state', consentResult.state)
+            .select('refresh_token');
 
           if (data && data[0].refresh_token) {
             res
               .status(200)
-              .json({ message: "Amazon consent granted", success: true });
+              .json({ message: 'Amazon consent granted', success: true });
           } else {
-            res.json({ message: "Amazon consent failed", success: false });
+            res.json({ message: 'Amazon consent failed', success: false });
           }
         }
+      }
     }
   }
 }

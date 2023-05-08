@@ -1,12 +1,4 @@
-import { SupabaseClient, User } from '@supabase/supabase-js';
-import {
-  ItemQuantity,
-  ProductItem,
-  SaveOtherQuantity,
-  SaveProductData,
-  SaveProductsFromAmazon,
-  UpdateItem,
-} from '../../types/product';
+import { SupabaseClient } from '@supabase/supabase-js';
 import { SaveContact } from '../../types/contact';
 
 export class ContactService {

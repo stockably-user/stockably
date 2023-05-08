@@ -1,4 +1,4 @@
-import { Button, Container, SimpleGrid, Text } from '@mantine/core';
+import { Button, Container, SimpleGrid } from '@mantine/core';
 import StockablyAppShell from '../../components/nav/StockablyAppShell';
 import { useContactForm } from '../../hooks/useContactForm';
 import { useCallback, useState } from 'react';

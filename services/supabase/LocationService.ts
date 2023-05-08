@@ -24,8 +24,6 @@ export class LocationService {
     return LocationTypeMeta;
   }
 
-  async deleteTestLocations(user: User) {}
-
   async getLocations(user: User) {
     const { data, error } = await this.supabase
       .from('locations')

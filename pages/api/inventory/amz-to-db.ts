@@ -17,7 +17,7 @@ export default async function handler(
     } = await sb.auth.getUser();
 
     switch (req.method) {
-      case 'POST':
+      case 'POST': {
         if (!user) {
           res.status(403).json({ message: 'no user found' });
           break;
@@ -49,6 +49,7 @@ export default async function handler(
           res.status(500).json({ message: 'no good', error: {} });
         }
         break;
+      }
     }
   }
 }

@@ -1,8 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { checkForActiveSession } from '../../../utils';
-import { InventoryService } from '../../../services/amazon/InventoryService';
-import { TokenService } from '../../../services/supabase/TokenService';
-import { Region } from '../../../types/region';
 import { SaveContactSchema } from '../../../types/requestBody';
 import { ContactService } from '../../../services/supabase/ContactService';
 

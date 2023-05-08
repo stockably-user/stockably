@@ -1,4 +1,3 @@
-import { Operation } from 'amazon-sp-api';
 import { GetInventorySummariesResponse } from 'amazon-sp-api/lib/typings/operations/fbaInventory';
 import {
   GetInventoryListing,
