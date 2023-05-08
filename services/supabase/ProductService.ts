@@ -20,6 +20,7 @@ export class ProductService {
       .from('product_items')
       .select(
         `
+        id,
         name,
         asin,
         sku,

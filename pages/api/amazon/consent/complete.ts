@@ -4,7 +4,7 @@ import { checkForActiveSession } from '../../../../utils';
 
 async function verifyConsentState(supabase: SupabaseClient, state: string) {
   // get initial consent
-  let amazon_consent_query = await supabase
+  const amazon_consent_query = await supabase
     .from('amazon_consents')
     .select('*')
     .eq('state', state)

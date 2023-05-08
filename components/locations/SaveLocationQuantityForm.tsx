@@ -1,4 +1,4 @@
-import { Button, NumberInput, Select, TextInput } from '@mantine/core';
+import { Button, NumberInput, Select } from '@mantine/core';
 import { Dispatch } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import {
@@ -36,12 +36,19 @@ type LocationData = {
   };
 };
 
+interface ItemData {
+  id: number;
+  name: string;
+}
+
 const SaveLocationQuantityForm = ({
   setInventory,
   locations,
+  items,
 }: {
   setInventory: Dispatch<any>;
-  locations: any;
+  locations: any; // TODO: Typings
+  items: any; // TODO: Typings
 }) => {
   const { register, handleSubmit, setValue } =
     useForm<SaveLocationQuantityFormValues>();
@@ -53,6 +60,15 @@ const SaveLocationQuantityForm = ({
           label: location.name,
         };
       }, {})
+    : [];
+
+  const itemsData = items
+    ? (items as ItemData[]).map((item) => {
+        return {
+          value: item.id.toString(),
+          label: item.name,
+        };
+      })
     : [];
 
   const handleSaveLocationQuantity: SubmitHandler<
@@ -90,7 +106,17 @@ const SaveLocationQuantityForm = ({
       onSubmit={handleSubmit(handleSaveLocationQuantity)}
     >
       <h3>Save quantity for a location</h3>
-      <TextInput label="item id" {...register('item_id')} />
+      <Select
+        label="item id"
+        placeholder="Select item"
+        {...register('item_id')}
+        onChange={(valueString) => {
+          if (valueString) {
+            setValue('item_id', Number(valueString));
+          }
+        }}
+        data={itemsData}
+      />
       <Select
         label="location id"
         placeholder="Select location"

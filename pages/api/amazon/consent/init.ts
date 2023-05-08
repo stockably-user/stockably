@@ -18,7 +18,7 @@ export default async function handler(
         } = await sb.auth.getUser();
 
         // get region id
-        let region_query = await sb
+        const region_query = await sb
           .from('marketplaces')
           .select('region_id')
           .eq('country_code', countryCode);

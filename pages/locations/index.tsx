@@ -12,8 +12,9 @@ const Locations = () => {
     isSaveLocationQuantityFormOpen,
     toggleSaveLocationQuantityFormOpenState,
   } = useSaveLocationQuantityForm();
-  const [inventory, setInventory] = useState();
+  const [messages, setMessages] = useState();
   const [locations, setLocations] = useState();
+  const [inventory, setInventory] = useState();
 
   const handleGetLocations = useCallback(() => {
     async function getLocations() {
@@ -26,16 +27,39 @@ const Locations = () => {
       const res = await req.json();
       if (res.message) {
         console.log(res.message);
-        setInventory(res.message);
+        setMessages(res.message);
         setLocations(res.message);
       } else {
         console.log(res.data);
-        setInventory(res.data);
+        setMessages(res.data);
         setLocations(res.data);
       }
     }
 
     getLocations();
+  }, []);
+
+  const handleGetInventory = useCallback(() => {
+    async function getInventory() {
+      const req = await fetch('api/items', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const res = await req.json();
+      if (res.message) {
+        console.log(res.message);
+        setMessages(res.message);
+        setInventory(res.message);
+      } else {
+        console.log(res.data);
+        setMessages(res.data);
+        setInventory(res.data);
+      }
+    }
+
+    getInventory();
   }, []);
 
   const handleSaveLocation = useCallback(() => {
@@ -65,10 +89,10 @@ const Locations = () => {
       const res = await req.json();
       if (res.message) {
         console.log(res.message);
-        setInventory(res.message);
+        setMessages(res.message);
       } else {
         console.log(res.data);
-        setInventory(res.data);
+        setMessages(res.data);
       }
     }
     saveLocation();
@@ -79,20 +103,22 @@ const Locations = () => {
       <SimpleGrid cols={3}>
         <div>
           <h2>Locations</h2>
-          <div>
+
+          <SimpleGrid cols={1}>
             <Button onClick={handleSaveLocation}>Save Location</Button>
-          </div>
-          <div>
             <Button onClick={handleGetLocations}>Get Locations</Button>
-          </div>
-          <div>
+            <Button onClick={handleGetInventory}>Get Inventory</Button>
             <Button onClick={toggleSaveLocationQuantityFormOpenState}>
               Open Save Location Quantity Form
             </Button>
+          </SimpleGrid>
+
+          <div>
             {isSaveLocationQuantityFormOpen && (
               <SaveLocationQuantityForm
                 locations={locations}
-                setInventory={setInventory}
+                setInventory={setMessages}
+                items={inventory}
               />
             )}
           </div>
@@ -102,10 +128,10 @@ const Locations = () => {
           <Button onClick={toggleContactFormOpenState}>
             Show add contact form
           </Button>
-          {isContactFormOpen && <AddContactForm setInventory={setInventory} />}
+          {isContactFormOpen && <AddContactForm setInventory={setMessages} />}
         </div>
       </SimpleGrid>
-      <pre>{JSON.stringify(inventory, null, 2)}</pre>
+      <pre>{JSON.stringify(messages, null, 2)}</pre>
     </Container>
   );
 };

@@ -1,17 +1,17 @@
-import { v4 } from "uuid";
+import { v4 } from 'uuid';
 import {
   Marketplaces,
   MarketPlaces_Europe,
   MarketPlaces_FarEast,
   MarketPlaces_NorthAmerica,
-} from "../../../types/marketplace";
-import styles from "./authorize.module.css";
+} from '../../../types/marketplace';
+import styles from './authorize.module.css';
 
 async function initiateConsentFlow(state: string, countryCode: string) {
   const req = await fetch(`/api/amazon/consent/init`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       state,
@@ -22,22 +22,22 @@ async function initiateConsentFlow(state: string, countryCode: string) {
   console.log(res);
 }
 
-async function authorizeMarketplace(marketplace: string, test: boolean = true) {
+async function authorizeMarketplace(marketplace: string, test = true) {
   const redirectConfirmed = confirm(`Redirect to Amazon for authorization?`);
 
   if (redirectConfirmed) {
     const applicationId = process.env.NEXT_PUBLIC_AMAZON_APP_ID;
     const m = Marketplaces[marketplace];
-    const redirectUri = "https://stockably.vercel.app/amazon/authorize/result";
+    const redirectUri = 'https://stockably.vercel.app/amazon/authorize/result';
     const state = v4();
     const oAuthURI = `${
       m.endpoint
     }/apps/authorize/consent?application_id=${applicationId}&redirect_uri=${redirectUri}&state=${state}${
-      test ? "&version=beta" : null
+      test ? '&version=beta' : null
     }`;
 
     console.log(`redirecting for amazon authorization at ${oAuthURI}`);
-    window.open(oAuthURI, "_blank");
+    window.open(oAuthURI, '_blank');
 
     await initiateConsentFlow(state, m.countryCode);
   }
