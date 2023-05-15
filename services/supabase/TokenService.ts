@@ -12,7 +12,7 @@ export class TokenService {
   async getRefreshTokenByRegion(args: GetRefreshTokenByRegion) {
     console.log(`getting token for region: ${args.region}...`);
 
-    let res = await this.supabase
+    const res = await this.supabase
       .from('amazon_consents')
       .select(
         `
@@ -39,7 +39,7 @@ export class TokenService {
   async getZacksRefreshTokenByRegion(region: Region) {
     console.log(`getting zack's token for region: ${region}...`);
 
-    let res = await this.supabase
+    const res = await this.supabase
       .from('amazon_consents')
       .select(
         `
