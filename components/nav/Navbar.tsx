@@ -7,6 +7,7 @@ const CustomNavbar = () => {
         <NavLink component="a" label="Dashboard" href="/" />
         <NavLink component="a" label="Inventory" href="/inventory" />
         <NavLink component="a" label="Locations" href="/locations" />
+        <NavLink component="a" label="Work Orders" href="/work-orders" />
       </Navbar.Section>
     </Navbar>
   );

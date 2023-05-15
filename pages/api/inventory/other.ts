@@ -41,7 +41,8 @@ export default async function handler(
           }
           break;
         } catch (error) {
-          res.status(500).json({ message: 'no good', error: {} });
+          console.log('error', error);
+          res.status(500).json({ message: 'no good', error });
           break;
         }
     }

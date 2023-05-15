@@ -85,7 +85,7 @@ const SaveLocationQuantityForm = ({
           location_id: data.location_id,
           to_location_id: data.to_location_id,
           location_status_id: data.location_status_id,
-          quantity: data.quantity,
+          quantity: Number(data.quantity),
         }),
       });
       const res = await req.json();
