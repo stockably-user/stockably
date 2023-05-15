@@ -51,10 +51,10 @@ export class ProductService {
 
   async saveProductsFromAmazon(args: SaveProductsFromAmazon) {
     // given amazon inventory data, save quantities and items to db
-    for (let i of args.inventorySummary) {
+    for (const i of args.inventorySummary) {
       const inv = i.payload;
       if (inv) {
-        for (let item of inv.inventorySummaries) {
+        for (const item of inv.inventorySummaries) {
           const p: ProductItem = {
             name: item.productName!,
             fnSku: item.fnSku!,
