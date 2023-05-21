@@ -12,7 +12,7 @@
     "@aws-sdk/client-sts": "^3.332.0",
     "@emotion/react": "^11.10.6",
     "@emotion/server": "^11.10.0",
-    "@mantine/core": "^6.0.5",
+    "@mantine/core": "^6.0.10",
     "@mantine/hooks": "^6.0.4",
     "@mantine/next": "^6.0.10",
     "@supabase/auth-helpers-nextjs": "^0.5.6",
