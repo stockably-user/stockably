@@ -46,7 +46,7 @@ const SaveLocationQuantityForm = ({
   locations,
   items,
 }: {
-  setInventory: Dispatch<unknown>;
+  setInventory: Dispatch<any>;
   locations: unknown; // TODO: Typings
   items: unknown; // TODO: Typings
 }) => {
