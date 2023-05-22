@@ -16,22 +16,21 @@ export type DashboardRecord = {
 
 const DashboardColumns: DataTableColumn<DashboardRecord>[] = [
   {
-    accessor: 'id',
-  },
-  {
     accessor: 'name',
-  },
-  {
-    accessor: 'asin',
-  },
-  {
-    accessor: 'sku',
-  },
-  {
-    accessor: 'fnsku',
+    render: (record: DashboardRecord) => {
+      return (
+        <>
+          <div>{record.name}</div>
+          <div>ASIN: {record.asin}</div>
+          <div>SKU: {record.sku}</div>
+          <div>FNSKU: {record.fnsku}</div>
+        </>
+      );
+    },
   },
   {
     accessor: 'amzFulfillable',
+    sortable: true,
   },
   {
     accessor: 'amzInboundWorking',
@@ -44,6 +43,7 @@ const DashboardColumns: DataTableColumn<DashboardRecord>[] = [
   },
   {
     accessor: 'amzTotal',
+    sortable: true,
   },
   {
     accessor: 'otherLocationQuantities',
@@ -61,6 +61,8 @@ const DashboardDataTable = ({ records }: DashboardDataTableProps) => {
     <DataTable
       withBorder
       borderRadius="sm"
+      minHeight={150}
+      height={500}
       striped
       records={records}
       columns={DashboardColumns}
