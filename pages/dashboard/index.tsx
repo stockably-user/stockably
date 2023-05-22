@@ -5,6 +5,7 @@ import DashboardDataTable from '../../components/dashboard/DashboardDataTable';
 
 function Dashboard() {
   const [inventory, setInventory] = useState<any>();
+  const [itemData, setItemData] = useState<any>(); // specifically for the data table
 
   // TODO: Move these click handlers into hook
   const handleGetInventory = useCallback(() => {
@@ -43,7 +44,7 @@ function Dashboard() {
         setInventory(res.message);
       } else {
         console.log(res.data);
-        setInventory(res.data);
+        setItemData(res.data);
       }
     }
     getInventoryFromDB();
@@ -133,8 +134,8 @@ function Dashboard() {
     saveProductsFromAmazon();
   }, []);
 
-  const dataTableRecords = inventory
-    ? inventory.map((item: any) => ({
+  const dataTableRecords = itemData
+    ? itemData.map((item: any) => ({
         id: item.id,
         name: item.name,
         asin: item.asin,
