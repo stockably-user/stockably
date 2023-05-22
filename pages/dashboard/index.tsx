@@ -1,9 +1,11 @@
 import { useCallback, useState } from 'react';
 import Link from 'next/link';
 import { Button, Container, SimpleGrid } from '@mantine/core';
+import DashboardDataTable from '../../components/dashboard/DashboardDataTable';
 
 function Dashboard() {
-  const [inventory, setInventory] = useState();
+  const [inventory, setInventory] = useState<any>();
+  const [itemData, setItemData] = useState<any>(); // specifically for the data table
 
   // TODO: Move these click handlers into hook
   const handleGetInventory = useCallback(() => {
@@ -42,7 +44,7 @@ function Dashboard() {
         setInventory(res.message);
       } else {
         console.log(res.data);
-        setInventory(res.data);
+        setItemData(res.data);
       }
     }
     getInventoryFromDB();
@@ -132,6 +134,22 @@ function Dashboard() {
     saveProductsFromAmazon();
   }, []);
 
+  const dataTableRecords = itemData
+    ? itemData.map((item: any) => ({
+        id: item.id,
+        name: item.name,
+        asin: item.asin,
+        sku: item.sku,
+        fnsku: item.fnsku,
+        amzFulfillable: item.amz_item_quantities[0].amz_fulfillable,
+        amzInboundWorking: item.amz_item_quantities[0].amz_inbound_working,
+        amzInboundShipped: item.amz_item_quantities[0].amz_inbound_shipped,
+        amzInboundReceiving: item.amz_item_quantities[0].amz_inbound_receiving,
+        amzTotal: item.amz_item_quantities[0].amz_total,
+        // otherLocationQuantities: item.other_item_quantities[0],
+      }))
+    : [];
+
   return (
     <Container fluid>
       <h1>Dashboard</h1>
@@ -177,6 +195,8 @@ function Dashboard() {
           <Button onClick={handleGetInventoryFromDB}>Get Inventory</Button>
         </div>
       </SimpleGrid>
+
+      <DashboardDataTable records={dataTableRecords} />
 
       <div>
         <pre>{JSON.stringify(inventory, null, 2)}</pre>
