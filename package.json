@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-sts": "^3.332.0",
-    "@emotion/react": "^11.10.6",
+    "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.10.0",
     "@mantine/core": "^6.0.10",
     "@mantine/hooks": "^6.0.4",
